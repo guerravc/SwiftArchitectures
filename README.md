@@ -1,4 +1,4 @@
-![](https://bitbucket.org/carlosguerra/vipertemplate/raw/79c3bc166a79b2849822a7b228c5104ee29f6bdb/Assets/ViperHeader.png =x250)
+![](https://bitbucket.org/carlosguerra/vipertemplate/raw/79c3bc166a79b2849822a7b228c5104ee29f6bdb/Assets/ViperHeader.png)
  
 # My Viper Template
 
