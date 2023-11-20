@@ -6,4 +6,3 @@ import Foundation
 struct ___VARIABLE_sceneName___SceneEntity {
 
 }
-
