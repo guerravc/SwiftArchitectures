@@ -4,15 +4,42 @@ import Foundation
 import UIKit
 
 enum AppInfo {
-  static let dwWebURI = Bundle.main.object(forInfoDictionaryKey: "DWWebURI") as? String ?? ""
-  static let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? ""
-  static let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
-  static let bundleVersion = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String ?? ""
-  static let appName = Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as? String ?? ""
+  static let bundleName: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .bundleName)) ?? ""
+  }
+
+  static let shortVersion: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .shortVersion)) ?? ""
+  }
+
+  static let bundleVersion: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .bundleVersion)) ?? ""
+  }
+
+  static let appName: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .appName)) ?? ""
+  }
+
   static let isPrerelease: Bool = {
-    let digitSet = CharacterSet(charactersIn: "0123456789.")
-    return (AppInfo.shortVersion.rangeOfCharacter(from: digitSet.inverted) != nil)
+      let digitSet = CharacterSet(charactersIn: "0123456789.")
+      return (AppInfo.shortVersion.rangeOfCharacter(from: digitSet.inverted) != nil)
   }()
+
+  public static var schema: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .schema)) ?? ""
+  }
+    
+  public static var baseURL: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .baseURL)) ?? ""
+  }
+    
+  public static var bucketURL: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .bucketURL)) ?? ""
+  }
+    
+  public static var authenticationToken: String {
+      return (try? ___VARIABLE_moduleName___Configuration.value(for: .PAT)) ?? ""
+  }
 }
 
 extension AppInfo {

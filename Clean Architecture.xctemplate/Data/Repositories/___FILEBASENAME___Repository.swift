@@ -5,25 +5,22 @@ import Foundation
 final class ___VARIABLE_moduleName___Repository: ___VARIABLE_moduleName___Gateway {
 
 
-  private let remoteDataSource: ___VARIABLE_moduleName___RemoteDataSource
-  private let localDateSource: ___VARIABLE_moduleName___LocalDataSource
+  @Inject private let remoteDataSource: ___VARIABLE_moduleName___RemoteDataSource
+  @Inject private let localDateSource: ___VARIABLE_moduleName___LocalDataSource
+  static private let shared = ___VARIABLE_moduleName___Repository()
 
-  private init(remoteDataSource: ___VARIABLE_moduleName___RemoteDataSource, localDataSource: ___VARIABLE_moduleName___LocalDataSource) {
-    self.remoteDataSource = remoteDataSource
-    self.localDateSource = localDataSource
-  }
+  private init() {}
 
-  static func make(remoteService: ___VARIABLE_moduleName___RemoteDataSource,
-    localStorage: ___VARIABLE_moduleName___LocalDataSource = ___VARIABLE_moduleName___Storage.shared) -> ___VARIABLE_moduleName___Gateway {
-    ___VARIABLE_moduleName___Repository(remoteDataSource: remoteService, localDataSource: localStorage)
+  static func make() -> ___VARIABLE_moduleName___Gateway {
+        shared
   }
 
   // Data fetch service methods goes here
 
-  func addSomething(entityId: Int, completion: @escaping ___VARIABLE_moduleName___ResultClosure) {
+  func addSomething(request: ___VARIABLE_moduleName___Request, completion: @escaping ___VARIABLE_moduleName___Result) {
     Task.init {
       do {
-        let result = try await remoteDataSource.addSomething(entityId: entityId)
+        let result = try await remoteDataSource.addSomething(request: request)
         completion(.success(result))
       } catch {
         completion(.failure(error))

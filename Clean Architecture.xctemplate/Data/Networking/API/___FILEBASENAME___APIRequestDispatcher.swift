@@ -2,8 +2,16 @@
 
 import Foundation
 
-class APIRequestDispatcher {
-	class func createAPIRequest(_ apiRouter: some APIRouter) throws -> URLRequest {
+protocol Dispatcher {
+    func request<T: Codable>(apiRouter: APIRouter) async throws -> T
+}
+
+class ___VARIABLE_moduleName___APIRequestDispatcher: Dispatcher {
+    static let shared = ___VARIABLE_moduleName___APIRequestDispatcher.init()
+    
+    private init() {}
+
+	private func createAPIRequest(_ apiRouter: some APIRouter) throws -> URLRequest {
   	var components = URLComponents()
   	components.host = apiRouter.hostName
   	components.scheme = apiRouter.scheme
@@ -35,7 +43,7 @@ class APIRequestDispatcher {
     return request
   }
 
-  class func request<T: Codable>(apiRouter: APIRouter) async throws -> T {
+  func request<T: Codable>(apiRouter: APIRouter) async throws -> T {
 
   	guard let urlRequest = try? createAPIRequest(apiRouter) else {
       throw ServerError.badUrl

@@ -4,22 +4,22 @@ import Foundation
 
 extension API.V3 {
 	enum ___VARIABLE_moduleName___: APIRouter{
-		case addSomething(entityId: Int)
-		case fetchSomething(entityId: Int)
-		case doSomething(entityId: Int)
-		case deleteSomething(entityId: Int)
+		case addSomething(request: ___VARIABLE_moduleName___Request)
+		case fetchSomething(request: ___VARIABLE_moduleName___Request)
+		case doSomething(request: ___VARIABLE_moduleName___Request)
+		case deleteSomething(request: ___VARIABLE_moduleName___Request)
 
 		var scheme: String {
 			switch API.version {
 				case .V3:
-					return "https"
+					return AppInfo.schema
 			}
 		}
 
 		var hostName: String {
 			switch API.version {
 				case .V3:
-					return "some.url.com";
+					return AppInfo.baseURL
 			}
 		}
 
@@ -51,23 +51,22 @@ extension API.V3 {
 
 		var parameters: [URLQueryItem] {
 			switch self {
-				case .addSomething(let parameter):
-					return [URLQueryItem(name: "parameterName", value: "\(parameter)")]
-				case .fetchSomething(let parameter):
-					return [URLQueryItem(name: "parameterName", value: "\(parameter)")]
-				case .doSomething(let parameter):
-					return [URLQueryItem(name: "parameterName", value: "\(parameter)")]
-				case .deleteSomething(let parameter):
-					return [URLQueryItem(name: "parameterName", value: "\(parameter)")]
+				case let .addSomething(request):
+					return [URLQueryItem(name: "parameterName", value: "\(request.input)")]
+				case let .fetchSomething(request):
+					return [URLQueryItem(name: "parameterName", value: "\(request.input)")]
+				case let .doSomething(request):
+					return [URLQueryItem(name: "parameterName", value: "\(request.input)")]
+				case let .deleteSomething(request):
+					return [URLQueryItem(name: "parameterName", value: "\(request.input)")]
 			}
 		}
 
 		var body: String? {
 			switch self {
-				case .addSomething(let parameter):
-					let dict = ["id": parameter]
-          let jsonData = try! JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
-          let jsonString = String(data: jsonData, encoding: .utf8)
+				case let .addSomething(request):
+          			let jsonData = try! JSONSerialization.data(withJSONObject: request.asDictionary(), options: .prettyPrinted)
+          			let jsonString = String(data: jsonData, encoding: .utf8)
 					return jsonString
 				case .fetchSomething, .doSomething, .deleteSomething:
 					return nil
@@ -76,14 +75,13 @@ extension API.V3 {
 
 		var authorizationToken: String? {
 			switch self {
-				case .addSomething(let parameter):
-          let loginString = String(format: "%@:%@", "username", "password")
-          let loginData = loginString.data(using: String.Encoding.utf8)!
-          let base64LoginString = loginData.base64EncodedString()
+				case let .addSomething(request):
+          			let loginString = String(format: "%@:%@", request.input, request.input)
+          			let loginData = loginString.data(using: String.Encoding.utf8)!
+          			let base64LoginString = loginData.base64EncodedString()
 					return base64LoginString
 				case .fetchSomething:
-					let jwt = "try? keychain.getString(Constants.Keys.jsonWebToken)"
-					return jwt
+					return AppInfo.authenticationToken
 				case .doSomething, .deleteSomething:
 					return nil
 			}
