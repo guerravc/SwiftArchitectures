@@ -6,8 +6,8 @@ enum ___VARIABLE_moduleName___Configuration {
     enum InfoKey: String {
         case bundleName = "CFBundleName"
         case shortVersion = "CFBundleShortVersionString"
-        case bundleVersion = kCFBundleVersionKey as String
-        case appNAme = kCFBundleNameKey as String
+        case bundleVersion = "CFBundleVersion"
+        case appNAme = "CFBundleDisplayName"
         case schema = "Schema"
         case baseURL = "BaseURL"
         case bucketURL = "BucketURL"
