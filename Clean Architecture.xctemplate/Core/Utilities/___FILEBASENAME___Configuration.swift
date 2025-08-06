@@ -7,7 +7,7 @@ enum ___VARIABLE_moduleName___Configuration {
         case bundleName = "CFBundleName"
         case shortVersion = "CFBundleShortVersionString"
         case bundleVersion = "CFBundleVersion"
-        case appNAme = "CFBundleDisplayName"
+        case appName = "CFBundleDisplayName"
         case schema = "Schema"
         case baseURL = "BaseURL"
         case bucketURL = "BucketURL"
