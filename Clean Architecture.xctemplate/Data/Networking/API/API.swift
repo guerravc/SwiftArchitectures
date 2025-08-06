@@ -12,7 +12,7 @@ protocol APIRouter {
   var hostName: String { get }
   var path: String { get }
   var method: HttpMethod { get }
-  var parameters: [URLQueryItem] { get }
+  var parameters: [URLQueryItem]? { get }
   var body: String? { get }
   var authorizationToken: String? { get }
   var authenticationType: String? { get }
