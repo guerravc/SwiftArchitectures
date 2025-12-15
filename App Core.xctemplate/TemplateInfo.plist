@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>DefaultCompletionName</key>
+  <string>AppCore</string>
+
+  <key>Description</key>
+  <string>Installs the foundational architecture layer for the application: AppInfo, DI container, dependency wrappers, base UseCase protocols, and logging utilities.</string>
+
+  <key>Kind</key>
+  <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+
+  <key>Options</key>
+  <array>
+  </array>
+
+  <key>Platforms</key>
+  <array>
+    <string>com.apple.platform.iphoneos</string>
+  </array>
+
+  <key>AllowedTypes</key>
+  <array>
+    <string>public.swift-source</string>
+  </array>
+
+  <!-- Usamos un archivo dummy en la raíz como archivo principal -->
+  <key>MainTemplateFile</key>
+  <string>___FILEBASENAME___.swift</string>
+
+  <key>SortOrder</key>
+  <string>0</string>
+
+  <key>Template Author</key>
+  <string>Carlos Guerra @guerraVc</string>
+
+  <key>Summary</key>
+  <string>Provides AppInfo, Logging, DI container, DI wrappers, and base UseCase protocols.</string>
+</dict>
+</plist>
