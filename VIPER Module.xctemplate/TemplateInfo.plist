@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>DefaultCompletionName</key>
-	<string>MyScene</string>
+	<string>MyVIPERModule</string>
 	<key>Description</key>
-	<string>Basic Swift VIPER Scene template. Creates View, Interactor, Presenter, Router with protocols.</string>
+	<string>VIPER Module template. Creates View, Interactor, Presenter, Router, Protocols, Entity and Storyboard.</string>
 	<key>Kind</key>
 	<string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
 	<key>Options</key>
@@ -118,6 +118,6 @@
 	<key>Template Author</key>
 	<string>Carlos Guerra @guerraVc</string>
 	<key>Summary</key>
-	<string>Basic Swift VIPER Scene template.</string>
+	<string>VIPER Module template.</string>
 </dict>
 </plist>
