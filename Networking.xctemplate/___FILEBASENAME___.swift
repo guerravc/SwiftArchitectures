@@ -2,42 +2,51 @@
 
 import Foundation
 
-/// Entry file for the generated App Core.
+/// Entry file for the generated Networking Core.
 /// 
-/// This file exists only to anchor template generation and to help developers
-/// understand where the root of the App Core lives. You may safely delete it
-/// after installation.
+/// This file exists solely to anchor template generation and to document
+/// the components that have been installed. It can be safely deleted after
+/// reviewing the structure.
 ///
-/// The App Core template installs:
+/// The Networking Core template provides:
 ///
-/// - `Core/AppInfo/AppInfo.swift`
-///     Provides metadata about the application and OS.
+/// ## Configuration
+/// - `Networking/Configuration/AppConfiguration.swift`  
+///   Reads API configuration from environment-based Info.plist keys 
+///   (scheme, host, base path, bucket URL, PAT, etc.).
 ///
-/// - `Core/DI/DependencyContainer.swift`
-///     A lightweight dependency injection container.
-///
-/// - `Core/DI/DIWrappers.swift`
-///     `@Inject` and `@Provider` property wrappers used for dependency injection.
-///
-/// - `Core/Logging/Log.swift`
-///     Multi-level logging utility.
-///
-/// - `Domain/Protocols/UseCaseProtocol.swift`
-///     Base protocols for use cases.
+/// - `Networking/Configuration/APIConfiguration.swift`  
+///   Defines `APIVersion`, `HTTPConfiguration`, and the `API` facade that
+///   applies global headers, timeout intervals and version metadata.
 ///
 ///
-/// ## Usage
+/// ## HTTP Primitives
+/// - `Networking/HTTP/HTTPTypes.swift`  
+///   Provides `HTTPMethod`, `HTTPStatusCode`, and `NetworkError`.
 ///
-/// After installing App Core, you may:
 ///
-/// - Register dependencies using `@Provider`
-/// - Resolve dependencies using `@Inject`
-/// - Use the DI container manually if needed
-/// - Extend App Core by adding more domain protocols or utilities
+/// ## Request Building & Response Model
+/// - `Networking/Client/APIRequest.swift`  
+///   Builds `URLRequest` instances from `APIRouter`.
+///
+/// - `Networking/Client/APIResponse.swift`  
+///   Wraps raw response data and the associated `HTTPURLResponse`.
+///
+///
+/// ## Dispatcher & Client
+/// - `Networking/Client/APIRequestDispatcher.swift`  
+///   Performs one-shot HTTP requests and SSE streaming using `URLSession`.
+///
+/// - `Networking/Client/APIClient.swift`  
+///   High-level API client for decoding `Decodable` payloads and consuming streams.
+///
+///
+/// ## SSE (Server-Sent Events)
+/// The dispatcher includes built-in support for `AsyncStream<T>` streaming using
+/// the `text/event-stream` protocol, enabling incremental responses from backend services.
 ///
 ///
 /// ## Deleting this File
-///
-/// This file is not used at runtime.
-/// It is safe to delete it once you understand the structure of the template.
+/// This file is informational only and not used at runtime.
+/// You may remove it once you are familiar with the installed components.
 struct ___FILEBASENAME___ { }

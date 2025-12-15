@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
   <key>DefaultCompletionName</key>
-  <string>AppCore</string>
+  <string>NetworkingCore</string>
 
   <key>Description</key>
-  <string>Installs the foundational architecture layer for the application: AppInfo, DI container, dependency wrappers, base UseCase protocols, and logging utilities.</string>
+  <string>Installs a reusable networking core: configuration, HTTP primitives, request building, dispatcher, client and optional SSE streaming support.</string>
 
   <key>Kind</key>
   <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
@@ -25,7 +25,7 @@
     <string>public.swift-source</string>
   </array>
 
-  <!-- Usamos un archivo dummy en la raíz como archivo principal -->
+  <!-- Archivo raíz “dummy” del template; lo definiremos como ___FILEBASENAME___.swift -->
   <key>MainTemplateFile</key>
   <string>___FILEBASENAME___.swift</string>
 
@@ -36,6 +36,6 @@
   <string>Carlos Guerra @guerraVc</string>
 
   <key>Summary</key>
-  <string>Provides AppInfo, Logging, DI container, DI wrappers, and base UseCase protocols.</string>
+  <string>Provides networking configuration, HTTP types, request builder, dispatcher, API client and SSE streaming support.</string>
 </dict>
 </plist>
