@@ -1,0 +1,75 @@
+// ___FILEHEADER___
+
+import Foundation
+
+/// Default remote service implementation for the ___VARIABLE_moduleName___ module.
+///
+/// This type implements `___VARIABLE_moduleName___RemoteDataSource` using the
+/// Networking Core (`APIClient`) and the module-specific `___VARIABLE_moduleName___API`
+/// router. It is responsible for performing HTTP calls and decoding responses
+/// into domain models wrapped by `BaseResponse` envelopes.
+public final class Default___VARIABLE_moduleName___Service: ___VARIABLE_moduleName___RemoteDataSource {
+  
+  // MARK: - Dependencies
+  
+  /// High-level HTTP client used to perform network requests.
+  private let apiClient: APIClient
+  
+  // MARK: - Init
+  
+  /// Creates a new remote service instance.
+  ///
+  /// - Parameter apiClient: API client used to perform HTTP requests.
+  public init(apiClient: APIClient) {
+    self.apiClient = apiClient
+  }
+  
+  // MARK: - ___VARIABLE_moduleName___RemoteDataSource
+  
+  /// Fetches data from the remote backend using the given request.
+  ///
+  /// - Parameter request: Request model containing the parameters required
+  ///   by the backend.
+/// - Returns: A `BaseResponse` wrapping the module response model.
+/// - Throws: A `NetworkError` if the request fails or the payload cannot be decoded.
+  public func fetch(
+    _ request: ___VARIABLE_moduleName___Request
+  ) async throws -> BaseResponse<___VARIABLE_moduleName___Response> {
+    let route = ___VARIABLE_moduleName___API.fetch(request: request)
+    
+    let result = await apiClient.request(
+      route,
+      as: BaseResponse<___VARIABLE_moduleName___Response>.self
+    )
+    
+    switch result {
+    case .success(let response):
+      return response
+    case .failure(let error):
+      throw error
+    }
+  }
+  
+  /// Persists the given entity on the remote backend (create, update, delete, etc.).
+  ///
+  /// - Parameter entity: The entity instance to be sent to the backend.
+/// - Returns: An `EmptyBaseResponse` describing backend status and message.
+/// - Throws: A `NetworkError` if the request fails or the payload cannot be decoded.
+  public func persist(
+    _ entity: ___VARIABLE_moduleName___Entity
+  ) async throws -> EmptyBaseResponse {
+    let route = ___VARIABLE_moduleName___API.persist(entity: entity)
+    
+    let result = await apiClient.request(
+      route,
+      as: EmptyBaseResponse.self
+    )
+    
+    switch result {
+    case .success(let response):
+      return response
+    case .failure(let error):
+      throw error
+    }
+  }
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>DefaultCompletionName</key>
+  <string>MyCleanModule</string>
+
+  <key>Description</key>
+  <string>Generates a Clean Architecture feature module with Domain and Data layers (entities, gateway, use case, services, storage and repository).</string>
+
+  <key>Kind</key>
+  <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+
+  <key>Options</key>
+  <array>
+    <dict>
+      <key>Description</key>
+      <string>The name of the feature/module to create</string>
+      <key>Identifier</key>
+      <string>moduleName</string>
+      <key>Name</key>
+      <string>Module name:</string>
+      <key>NotPersisted</key>
+      <true/>
+      <key>Required</key>
+      <true/>
+      <key>Type</key>
+      <string>text</string>
+    </dict>
+    <dict>
+      <key>Default</key>
+      <string>___VARIABLE_moduleName___</string>
+      <key>Identifier</key>
+      <string>productName</string>
+      <key>Type</key>
+      <string>static</string>
+    </dict>
+  </array>
+
+  <key>Platforms</key>
+  <array>
+    <string>com.apple.platform.iphoneos</string>
+  </array>
+
+  <key>AllowedTypes</key>
+  <array>
+    <string>public.swift-source</string>
+  </array>
+
+  <!-- Root file for the template; we añadiremos ___FILEBASENAME___.swift -->
+  <key>MainTemplateFile</key>
+  <string>___FILEBASENAME___</string>
+
+  <key>SortOrder</key>
+  <string>0</string>
+
+  <key>Template Author</key>
+  <string>Carlos Guerra @guerraVc</string>
+
+  <key>Summary</key>
+  <string>Clean Architecture feature module with Domain and Data layers.</string>
+</dict>
+</plist>
