@@ -1,58 +1,173 @@
-![header](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/Header.jpeg)
- 
-# Swift Architectures Templates
-In this repository you can find two templates relacte with VIPER and Clean Architecture applied to iOS. You are able to add into XCode Templates.
+![header](Assets/Header.jpeg)
 
-## VIPER Architecture
+# Guerra's Concierge — Swift Architecture Templates
 
-![viper](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/ViperHeader.png)
+Guerra's Concierge is a curated suite of Xcode file templates that help you
+bootstrap **production-ready architectures** for iOS projects.
 
-The respository contains a Scene template in VIPER architecture. The Scene contains: View, ViewController, Storyboard, Interactor, Presenter, Entity, Router and Protocols along with code for some basic scene configurations.
+It currently includes templates for:
 
-### Setup
-1. Download or clone the respository.
-2. Under the repository you will find a folder named `VIPER.xctemplate`.
-3. Copy the template.
-4. In Finder Mac app go to Location (⌘+⇧+G): '~/Library/Developer/Xcode/Templates/Files Templates/'.
-5. Paste.
-6. Restart XCode.
+- **App Core**
+- **Clean Module**
+- **Networking**
+- **Use Case**
+- **VIPER Module**
 
-### Usage
-1. Open XCode.
-2. Click on 'add new file' and click Next.
-3. In your template list go down and choose 'VIPER'.
+All templates appear under the **“Guerra's Concierge”** section when creating a
+new file in Xcode.
 
-![ssviper](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/SSViper.png)
+---
 
-4. Type a name for your new scene.
+## Contents
 
-![viperScene](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/Viper%20Scene.png)
+### App Core
 
-You should be able to see all files were added to your project.
+Base layer for your application:
 
-## Clean Architecture
+- Dependency injection helpers  
+- Logging utilities  
+- `AppInfo` helpers for configuration  
+- Base use case protocols  
+- Shared core types (e.g. `BaseResponse`, `EmptyBaseResponse`)  
 
-![clean](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/CleanArchitectureHEader.jpeg)
+Intended to be added **once per app** and shared across all modules.
 
-The respository contains a Module template in Clean architecture. The Module contains: Use Case, Gateway, Entity, Data Source and Repository along with code for some basic scene configurations.
+---
 
-### Setup
-1. Download or clone the respository.
-2. Under the repository you will find a folder named `Clean Architecture.xctemplate`.
-3. Copy the template.
-4. In Finder Mac app go to Location (⌘+⇧+G): '~/Library/Developer/Xcode/Templates/Files Templates/'.
-5. Paste.
-6. Restart XCode.
+### Clean Module
 
-### Usage
-1. Open XCode.
-2. Click on 'add new file' and click Next.
-3. In your template list go down and choose 'Clean Architecture'.
+Generates a complete **Clean Architecture** feature module, including:
 
-![ssclean](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/SSCleanArchitecture.png)
+- `Domain/Entities/___VARIABLE_moduleName___Entity.swift`
+- `Domain/Gateways/___VARIABLE_moduleName___Gateway.swift`
+- `Domain/UseCases/Fetch___VARIABLE_moduleName___UC.swift`
+- `Data/Protocols/___VARIABLE_moduleName___DataSourceProtocol.swift`
+- `Data/Services/Default___VARIABLE_moduleName___Service.swift`
+- `Data/PersistentStorages/Default___VARIABLE_moduleName___Storage.swift`
+- `Data/Repositories/Default___VARIABLE_moduleName___Repository.swift`
+- `Data/Models/BaseResponses.swift`
+- `Data/API/___VARIABLE_moduleName___API.swift`
 
-4. Type a name for your new module.
+The template gives you a ready-to-use skeleton that cleanly separates **Domain** and
+**Data** using a well-defined gateway boundary.
 
-![cleanModule](https://bitbucket.org/carlosguerra/swiftarchitecturesswift/raw/155db232ab4d6eaaaed2106c9c474f380f349f23/Assets/CleanArchitecture%20Module.png)
+---
 
-You should be able to see all files were added to your project.
+### Networking
+
+Provides a reusable **networking core**, including:
+
+- HTTP primitives (`HTTPMethod`, `HTTPStatusCode`, `NetworkError`)  
+- `APIVersion`, `HTTPConfiguration`, and global `API` config  
+- `APIRouter` protocol  
+- `APIRequest` / `APIRequestBuilder`  
+- `APIResponse`  
+- `APIRequestDispatcher` (async/await, URLSession-based)  
+- `APIClient` with decoding and optional streaming  
+- SSE support using AsyncStream  
+
+Designed to be used as a **single networking layer** across multiple Clean or VIPER modules.
+
+---
+
+### Use Case
+
+Generates **focused use case implementations** conforming to the shared protocols in App Core.
+
+Available flavors include:
+
+- `ActionUseCase` / `AsyncActionUseCase`
+- `QueryUseCase` / `AsyncQueryUseCase`
+- `CommandUseCase` / `AsyncCommandUseCase`
+- `OperationUseCase` / `AsyncOperationUseCase`
+
+Each file provides a protocol + implementation pattern with a dedicated `UCImpl`,
+ready to receive a gateway and work directly with domain entities.
+
+---
+
+### VIPER Module
+
+Generates a complete **VIPER scene** for UIKit:
+
+- `View`
+- `ViewController`
+- `Interactor`
+- `Presenter`
+- `Entity`
+- `Router`
+- `Protocols`
+- Optional Storyboard
+
+Dependencies are wired through the router factory, keeping navigation isolated
+and the architecture modular.
+
+---
+
+## Installation
+
+1. **Download or clone** this repository.
+2. Inside the repo you will find:
+
+   - `App Core.xctemplate`
+   - `Clean Module.xctemplate`
+   - `Networking.xctemplate`
+   - `Use Case.xctemplate`
+   - `VIPER Module.xctemplate`
+
+3. Open Finder and go to (⌘ + ⇧ + G):
+
+   ```text
+   ~/Library/Developer/Xcode/Templates/File Templates/
+   ```
+
+4. Create a folder (if missing):
+
+   ```text
+   Guerra's Concierge
+   ```
+
+5. Copy the `.xctemplate` folders you want inside that folder.
+
+6. **Restart Xcode**.
+
+After restarting, the templates will appear under **“Guerra's Concierge”** in the file creation dialog.
+
+---
+
+## Usage
+
+1. In Xcode, go to **File → New → File…**
+2. Scroll to the **Guerra's Concierge** section.
+3. Choose the template you want (App Core, Clean Module, Networking, Use Case, VIPER Module).
+4. Click **Next** and fill in the required parameters.
+5. Xcode will generate the files automatically.
+
+![guerra-concierge](Assets/SSGuerraConcierge.png)
+
+---
+
+## Philosophy
+
+These templates aim to:
+
+- Encourage **explicit architectures** over ad-hoc code  
+- Reduce **boilerplate** when bootstrapping new modules  
+- Provide **clean, testable boundaries** between Domain and Data  
+- Make onboarding **new iOS developers** easier  
+
+They are intentionally **opinionated** but designed to be extended and customized.
+
+---
+
+## Requirements
+
+- Xcode 14+  
+- iOS 16+  
+- Swift Concurrency support (for async templates)
+
+---
+
+## License
+
+Released under the MIT License. See `LICENSE` for details.
