@@ -10,8 +10,7 @@ import Foundation
 /// The output type is the domain entity, so presentation layers can work directly
 /// with a clean model and map it to their own view models if needed.
 public protocol Fetch___VARIABLE_moduleName___UC: AsyncOperationUseCase
-where Input == Fetch___VARIABLE_moduleName___UC.Input,
-      Output == ___VARIABLE_moduleName___Entity { }
+where Output == ___VARIABLE_moduleName___Entity { }
 
 /// Default implementation of `Fetch___VARIABLE_moduleName___UC`.
 ///
