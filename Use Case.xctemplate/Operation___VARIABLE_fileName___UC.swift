@@ -25,8 +25,7 @@ import Foundation
 /// - return a **domain entity** as output
 /// - deliver the result through a closure (`Result<Output, Error>`)
 protocol Operation___VARIABLE_fileName___UC: OperationUseCase
-where Input == Operation___VARIABLE_fileName___UC.Input,
-      Output == ___VARIABLE_entityName___ { }
+where Output == ___VARIABLE_entityName___ { }
 
 /// Default implementation of `Operation___VARIABLE_fileName___UC`.
 ///

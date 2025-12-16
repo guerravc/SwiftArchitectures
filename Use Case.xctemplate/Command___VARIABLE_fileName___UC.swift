@@ -22,8 +22,7 @@ import Foundation
 ///
 /// This template is intended for write/command operations with input
 /// that only report success or failure (no domain output value).
-protocol Command___VARIABLE_fileName___UC: CommandUseCase
-where Input == Command___VARIABLE_fileName___UC.Input { }
+protocol Command___VARIABLE_fileName___UC: CommandUseCase { }
 
 /// Default implementation of `Command___VARIABLE_fileName___UC`.
 ///

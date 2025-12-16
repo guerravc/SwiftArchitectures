@@ -22,8 +22,7 @@ import Foundation
 ///
 /// This template is intended for write/command operations with input
 /// that only report success or failure (no domain output value).
-protocol AsyncCommand___VARIABLE_fileName___UC: AsyncCommandUseCase
-where Input == AsyncCommand___VARIABLE_fileName___UC.Input { }
+protocol AsyncCommand___VARIABLE_fileName___UC: AsyncCommandUseCase { }
 
 /// Default implementation of `AsyncCommand___VARIABLE_fileName___UC`.
 ///

@@ -22,8 +22,7 @@ import Foundation
 ///
 /// Adjust the `Input` fields and the `execute` implementation as needed.
 protocol AsyncOperation___VARIABLE_fileName___UC: AsyncOperationUseCase
-where Input == AsyncOperation___VARIABLE_fileName___UC.Input,
-      Output == ___VARIABLE_entityName___ { }
+where Output == ___VARIABLE_entityName___ { }
 
 /// Default implementation of `AsyncOperation___VARIABLE_fileName___UC`.
 ///
