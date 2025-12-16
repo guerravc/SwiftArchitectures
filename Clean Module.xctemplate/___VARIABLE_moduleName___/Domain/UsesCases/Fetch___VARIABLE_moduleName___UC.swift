@@ -2,37 +2,44 @@
 
 import Foundation
 
-/// Example use case for fetching data of the ___VARIABLE_moduleName___ module.
-/// 
+/// Async operation Use Case for fetching data of the ___VARIABLE_moduleName___ module.
+///
 /// This use case demonstrates how to interact with the gateway layer using the
-/// base use case protocols provided by the App Core (e.g. `AsyncOperationUseCase`).
+/// base use case protocol `AsyncOperationUseCase`.
 ///
 /// The output type is the domain entity, so presentation layers can work directly
 /// with a clean model and map it to their own view models if needed.
-public struct Fetch___VARIABLE_moduleName___UseCase: AsyncOperationUseCase {
+public protocol Fetch___VARIABLE_moduleName___UC: AsyncOperationUseCase
+where Input == Fetch___VARIABLE_moduleName___UC.Input,
+      Output == ___VARIABLE_moduleName___Entity { }
+
+/// Default implementation of `Fetch___VARIABLE_moduleName___UC`.
+///
+/// This type coordinates the module gateway and exposes a single async `execute`
+/// entry point that returns a `Result` with the domain entity or an error.
+public struct Fetch___VARIABLE_moduleName___UCImpl: Fetch___VARIABLE_moduleName___UC {
   
-  // MARK: - Input & Output
+  // MARK: - Input
   
   /// Input required by the use case.
   /// In this case, a request model with parameters required by the backend.
   public struct Input: Sendable {
+    /// Request model used to configure the backend operation.
     public let request: ___VARIABLE_moduleName___Request
     
+    /// Creates a new input instance.
+    /// - Parameter request: Request model with the parameters needed by the backend.
     public init(request: ___VARIABLE_moduleName___Request) {
       self.request = request
     }
   }
-  
-  /// Output produced by the use case.
-  /// The use case exposes the domain entity instead of the raw response wrapper.
-  public typealias Output = ___VARIABLE_moduleName___Entity
   
   // MARK: - Dependencies
   
   /// Gateway responsible for fetching the module's data.
   private let gateway: ___VARIABLE_moduleName___Gateway
   
-  /// Creates a new instance of the use case.
+  /// Creates a new instance of the use case implementation.
   /// - Parameter gateway: Gateway used to perform the data-fetching operation.
   public init(gateway: ___VARIABLE_moduleName___Gateway) {
     self.gateway = gateway
@@ -41,8 +48,9 @@ public struct Fetch___VARIABLE_moduleName___UseCase: AsyncOperationUseCase {
   // MARK: - Execute
   
   /// Executes the use case asynchronously.
+  ///
   /// - Parameter input: Required parameters to perform the operation.
-  /// - Returns: Result containing the domain entity or an error.
+  /// - Returns: A `Result` containing the domain entity or an error.
   public func execute(
     _ input: Input
   ) async -> Result<Output, Error> {

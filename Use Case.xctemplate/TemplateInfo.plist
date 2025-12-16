@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>DefaultCompletionName</key>
+  <string>MyUseCase</string>
+
+  <key>Description</key>
+  <string>Generates multiple Use Case implementations (sync and async) based on the base App Core protocols. Each file uses the UC suffix and can be deleted if not needed.</string>
+
+  <key>Kind</key>
+  <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+
+  <key>Platforms</key>
+  <array>
+    <string>com.apple.platform.iphoneos</string>
+  </array>
+
+  <key>AllowedTypes</key>
+  <array>
+    <string>public.swift-source</string>
+  </array>
+
+  <!-- Cualquier archivo Swift del template es válido como MainTemplateFile.
+       Usamos uno de los async como referencia. -->
+  <key>MainTemplateFile</key>
+  <string>AsyncOperation___VARIABLE_fileName___UC</string>
+
+  <key>Options</key>
+  <array>
+    <!-- Use Case name (VerbEntity) -->
+    <dict>
+      <key>Description</key>
+      <string>Name of the Use Case (recommended VerbEntity, e.g. FetchPayroll)</string>
+      <key>Identifier</key>
+      <string>fileName</string>
+      <key>Name</key>
+      <string>Use Case Name (VerbEntity):</string>
+      <key>Required</key>
+      <true/>
+      <key>NotPersisted</key>
+      <true/>
+      <key>Type</key>
+      <string>text</string>
+    </dict>
+
+    <!-- Domain Entity type -->
+    <dict>
+      <key>Description</key>
+      <string>Domain entity type used as Output (e.g. PayrollEntity)</string>
+      <key>Identifier</key>
+      <string>entityName</string>
+      <key>Name</key>
+      <string>Entity type:</string>
+      <key>Required</key>
+      <true/>
+      <key>NotPersisted</key>
+      <true/>
+      <key>Type</key>
+      <string>text</string>
+      <key>Default</key>
+      <string>MyEntity</string>
+    </dict>
+
+    <!-- Gateway type -->
+    <dict>
+      <key>Description</key>
+      <string>Gateway type used by the Use Case (e.g. PayrollGateway)</string>
+      <key>Identifier</key>
+      <string>gatewayName</string>
+      <key>Name</key>
+      <string>Gateway type:</string>
+      <key>Required</key>
+      <true/>
+      <key>NotPersisted</key>
+      <true/>
+      <key>Type</key>
+      <string>text</string>
+      <key>Default</key>
+      <string>MyGateway</string>
+    </dict>
+
+    <!-- Producto base, para que Xcode tenga un nombre interno -->
+    <dict>
+      <key>Default</key>
+      <string>___VARIABLE_fileName___UC</string>
+      <key>Identifier</key>
+      <string>productName</string>
+      <key>Type</key>
+      <string>static</string>
+    </dict>
+  </array>
+
+  <key>SortOrder</key>
+  <string>0</string>
+
+  <key>Template Author</key>
+  <string>Carlos Guerra @guerraVc</string>
+
+  <key>Summary</key>
+  <string>Generates multiple Use Case variants (sync/async, action/query/command/operation) with UC suffix, ready to be wired to a gateway and entity.</string>
+</dict>
+</plist>
