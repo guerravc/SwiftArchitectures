@@ -23,14 +23,19 @@ public protocol APIRequestDispatching {
   
   /// Starts a server-sent events (SSE) stream for the given route.
   /// The stream yields decoded values of the requested type.
-  /// - Parameters:
-  ///   - route: Endpoint definition.
-  ///   - type: The expected decodable type of each event payload.
+  ///
+  /// The generic type `T` is inferred from the call site, for example:
+  ///
+  /// ```swift
+  /// let result: Result<AsyncStream<EventDTO>, NetworkError> =
+  ///   await dispatcher.stream(EventsAPI.subscribe)
+  /// ```
+  ///
+  /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing an `AsyncStream` of decoded values on success
   ///   or a `NetworkError` if the stream cannot be started.
   func stream<T: Decodable>(
-    _ route: APIRouter,
-    as type: T.Type
+    _ route: APIRouter
   ) async -> Result<AsyncStream<T>, NetworkError>
 }
 
@@ -99,15 +104,13 @@ public final class APIRequestDispatcher: APIRequestDispatching {
   // MARK: - Streaming (SSE)
   
   /// Starts a server-sent events (SSE) stream for the given route.
-  /// The stream yields decoded values of the given type.
-  /// - Parameters:
-  ///   - route: Endpoint definition.
-  ///   - type: The expected decodable type of each event payload.
+  /// The stream yields decoded values of the inferred generic type `T`.
+  ///
+  /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing an `AsyncStream` of decoded values on success
   ///   or a `NetworkError` if the stream cannot be started.
   public func stream<T: Decodable>(
-    _ route: APIRouter,
-    as type: T.Type
+    _ route: APIRouter
   ) async -> Result<AsyncStream<T>, NetworkError> {
     
     // Build the base request.

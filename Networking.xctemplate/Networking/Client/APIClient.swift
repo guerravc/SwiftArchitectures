@@ -114,6 +114,6 @@ public final class DefaultAPIClient: APIClient {
     _ route: APIRouter
   ) async -> Result<AsyncStream<T>, NetworkError> {
     // Aquí seguimos delegando en el dispatcher, que aún recibe `as: T.Type`.
-    await dispatcher.stream(route, as: T.self)
+    await dispatcher.stream(route)
   }
 }
