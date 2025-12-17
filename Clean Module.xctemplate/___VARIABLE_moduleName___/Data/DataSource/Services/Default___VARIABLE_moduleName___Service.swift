@@ -28,19 +28,30 @@ public final class Default___VARIABLE_moduleName___Service: ___VARIABLE_moduleNa
   
   /// Fetches data from the remote backend using the given request.
   ///
+  /// The response is expected to be wrapped in a `BaseResponse` envelope whose
+  /// `object` payload is the module response model.
+  ///
+  /// Example payload shape:
+  ///
+  /// ```json
+  /// {
+  ///   "status": 0,
+  ///   "message": "OK",
+  ///   "object": { /* ___VARIABLE_moduleName___Response fields */ }
+  /// }
+  /// ```
+  ///
   /// - Parameter request: Request model containing the parameters required
   ///   by the backend.
-/// - Returns: A `BaseResponse` wrapping the module response model.
-/// - Throws: A `NetworkError` if the request fails or the payload cannot be decoded.
+  /// - Returns: A `BaseResponse` wrapping the module response model.
+  /// - Throws: A `NetworkError` if the request fails or the payload cannot be decoded.
   public func fetch(
     _ request: ___VARIABLE_moduleName___Request
   ) async throws -> BaseResponse<___VARIABLE_moduleName___Response> {
     let route = ___VARIABLE_moduleName___API.fetch(request: request)
     
-    let result = await apiClient.request(
-      route,
-      as: BaseResponse<___VARIABLE_moduleName___Response>.self
-    )
+    let result: Result<BaseResponse<___VARIABLE_moduleName___Response>, NetworkError> =
+      await apiClient.request(route)
     
     switch result {
     case .success(let response):
@@ -52,18 +63,19 @@ public final class Default___VARIABLE_moduleName___Service: ___VARIABLE_moduleNa
   
   /// Persists the given entity on the remote backend (create, update, delete, etc.).
   ///
+  /// The backend is expected to respond with an "empty" envelope that only
+  /// carries status and message information (no `object` payload).
+  ///
   /// - Parameter entity: The entity instance to be sent to the backend.
-/// - Returns: An `EmptyBaseResponse` describing backend status and message.
-/// - Throws: A `NetworkError` if the request fails or the payload cannot be decoded.
+  /// - Returns: An `EmptyBaseResponse` describing backend status and message.
+  /// - Throws: A `NetworkError` if the request fails or the payload cannot be decoded.
   public func persist(
     _ entity: ___VARIABLE_moduleName___Entity
   ) async throws -> EmptyBaseResponse {
     let route = ___VARIABLE_moduleName___API.persist(entity: entity)
     
-    let result = await apiClient.request(
-      route,
-      as: EmptyBaseResponse.self
-    )
+    let result: Result<EmptyBaseResponse, NetworkError> =
+      await apiClient.request(route)
     
     switch result {
     case .success(let response):
