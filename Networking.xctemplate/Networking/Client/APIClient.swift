@@ -6,17 +6,23 @@ import Foundation
 /// This client is responsible for decoding JSON payloads into `Decodable` types
 /// and exposing convenient APIs for one-shot requests and server-sent events (SSE).
 public protocol APIClient {
-  /// Performs a one-shot HTTP request and decodes the response body into the given type.
-  /// - Parameters:
-  ///   - route: Endpoint definition.
-  ///   - type: The expected decodable type.
+  /// Performs a one-shot HTTP request and decodes the response body into a `Decodable` type.
+  ///
+  /// El tipo genérico `T` se infiere a partir del contexto donde se llama,
+  /// por ejemplo:
+  ///
+  /// ```swift
+  /// let result: Result<UserDTO, NetworkError> = await apiClient.request(UserAPI.fetchProfile)
+  /// ```
+  ///
+  /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing the decoded value or a `NetworkError`.
   func request<T: Decodable>(
-    _ route: APIRouter,
-    as type: T.Type
+    _ route: APIRouter
   ) async -> Result<T, NetworkError>
   
   /// Performs a one-shot HTTP request and returns the raw response data.
+  ///
   /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing the raw response data or a `NetworkError`.
   func requestData(
@@ -24,13 +30,18 @@ public protocol APIClient {
   ) async -> Result<Data, NetworkError>
   
   /// Starts a server-sent events (SSE) stream and returns a typed `AsyncStream`.
-  /// - Parameters:
-  ///   - route: Endpoint definition.
-  ///   - type: The expected decodable type of each event payload.
+  ///
+  /// El tipo genérico `T` también se infiere a partir del contexto:
+  ///
+  /// ```swift
+  /// let result: Result<AsyncStream<EventDTO>, NetworkError> =
+  ///   await apiClient.stream(EventsAPI.subscribe)
+  /// ```
+  ///
+  /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing an `AsyncStream` of decoded values or a `NetworkError`.
   func stream<T: Decodable>(
-    _ route: APIRouter,
-    as type: T.Type
+    _ route: APIRouter
   ) async -> Result<AsyncStream<T>, NetworkError>
 }
 
@@ -44,6 +55,7 @@ public final class DefaultAPIClient: APIClient {
   private let decoder: JSONDecoder
   
   /// Creates a new API client.
+  ///
   /// - Parameters:
   ///   - dispatcher: Dispatcher used to perform requests.
   ///   - decoder: JSON decoder used for decoding responses. Defaults to `JSONDecoder()`.
@@ -55,14 +67,12 @@ public final class DefaultAPIClient: APIClient {
     self.decoder = decoder
   }
   
-  /// Performs a one-shot HTTP request and decodes the response body into the given type.
-  /// - Parameters:
-  ///   - route: Endpoint definition.
-  ///   - type: The expected decodable type.
+  /// Performs a one-shot HTTP request and decodes the response body into a `Decodable` type.
+  ///
+  /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing the decoded value or a `NetworkError`.
   public func request<T: Decodable>(
-    _ route: APIRouter,
-    as type: T.Type
+    _ route: APIRouter
   ) async -> Result<T, NetworkError> {
     let result = await dispatcher.perform(route)
     
@@ -80,6 +90,7 @@ public final class DefaultAPIClient: APIClient {
   }
   
   /// Performs a one-shot HTTP request and returns the raw response data.
+  ///
   /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing the raw response data or a `NetworkError`.
   public func requestData(
@@ -96,14 +107,13 @@ public final class DefaultAPIClient: APIClient {
   }
   
   /// Starts a server-sent events (SSE) stream and returns a typed `AsyncStream`.
-  /// - Parameters:
-  ///   - route: Endpoint definition.
-  ///   - type: The expected decodable type of each event payload.
+  ///
+  /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing an `AsyncStream` of decoded values or a `NetworkError`.
   public func stream<T: Decodable>(
-    _ route: APIRouter,
-    as type: T.Type
+    _ route: APIRouter
   ) async -> Result<AsyncStream<T>, NetworkError> {
+    // Aquí seguimos delegando en el dispatcher, que aún recibe `as: T.Type`.
     await dispatcher.stream(route, as: T.self)
   }
 }
