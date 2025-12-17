@@ -30,9 +30,9 @@ extension ___VARIABLE_moduleName___API: APIRouter {
   public var path: String {
     switch self {
     case .fetch:
-      return "/___VARIABLE_moduleNameLowercased___/fetch"
+      return "/___VARIABLE_moduleName:lowercased___/fetch"
     case .persist:
-      return "/___VARIABLE_moduleNameLowercased___/persist"
+      return "/___VARIABLE_moduleName:lowercased___/persist"
     }
   }
   
