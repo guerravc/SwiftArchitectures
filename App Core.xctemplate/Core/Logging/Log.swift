@@ -19,7 +19,7 @@ public enum Log {
   ///   so logs can be easily filtered in Console.app.
   private static let logger = Logger(
     subsystem: Bundle.main.bundleIdentifier ?? "App",
-    category: "Log"
+    category: "guerralog"
   )
 
   // MARK: - Clock
