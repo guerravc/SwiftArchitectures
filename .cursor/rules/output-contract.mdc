@@ -1,0 +1,100 @@
+---
+description: Output contract: template files + TemplateInfo.plist validation + commit message
+alwaysApply: true
+---
+
+ENVIRONMENT
+- Xcode 14+
+- iOS 16+ minimum deployment target
+- Swift 5.9+
+
+DELIVERABLES (every response that includes template changes)
+1) Reasoning (Spanish):
+   - Approach summary + key trade-offs (pros/cons).
+   - Risks/limitations relevant to the chosen approach.
+   - Impact on generated code structure.
+
+2) Template files:
+   - Create OR modify template files (Swift source files with Xcode variables).
+   - Show the COMPLETE file contents (no partial diffs).
+   - The file content must be in English.
+   - Preserve Xcode template variables correctly (`___FILEBASENAME___`, `___VARIABLE_*___`).
+
+3) TemplateInfo.plist (if modified):
+   - When creating or modifying templates, update `TemplateInfo.plist` accordingly.
+   - Validate all required keys are present:
+     - `Kind`: Must be `Xcode.IDEKit.TextSubstitutionFileTemplateKind`
+     - `Platforms`: Array of platform identifiers
+     - `AllowedTypes`: Array of allowed file types
+     - `MainTemplateFile`: Reference to main template file
+     - `DefaultCompletionName`: Default name for generated files
+     - `Options`: Array of variable definitions (if template uses custom variables)
+   - Ensure all variables used in Swift files are defined in `Options` array.
+   - Verify `MainTemplateFile` references an existing file in the template.
+
+4) Documentation and comments:
+   - Template files must include inline documentation explaining the generated code.
+   - Document Xcode variables and their purpose.
+   - Include usage examples in comments where appropriate.
+   - Component documentation must explain the architectural pattern being used.
+
+5) Commit message (English):
+   - Provide exactly one commit message following:
+     [BUILD] | [CI] | [DOCS] | [FEAT] | [FIX] | [PERF] | [REFACTOR] | [STYLE] | [TEST]
+   - Examples:
+     [FEAT]: add new Clean Module template
+     [FIX]: correct variable substitution in VIPER template
+     [REFACTOR]: improve template structure for MVVM module
+     [DOCS]: update template documentation
+     [STYLE]: fix formatting in template files
+
+TEMPLATE STRUCTURE RULES
+- **Multiple files per template:** Templates can generate multiple files and directories.
+  - When modifying a template, you may need to update multiple files.
+  - Show all modified files in a single response if they're logically related.
+  - If changes span many files, prioritize the most critical ones and note others in reasoning.
+- **Variable formatting:**
+  - Xcode variables must use exact format: `___VARIABLE_<identifier>___` (triple underscores, uppercase VARIABLE, identifier in lowercase/camelCase).
+  - `___FILEBASENAME___` is always available (no need to define in Options).
+  - Custom variables must be defined in `TemplateInfo.plist` Options array.
+- **Directory structure:**
+  - Template directory structure must match the intended output structure.
+  - When adding new files, place them in the correct subdirectory within the template.
+  - Maintain consistency with existing template organization.
+
+TEMPLATEINFO.PLIST VALIDATION (MANDATORY)
+Before finalizing any template changes, verify:
+1. **Structure:**
+   - Root keys: `Kind`, `Platforms`, `AllowedTypes`, `MainTemplateFile`, `DefaultCompletionName`, `Options` (if needed), `Description`, `Summary`, `Template Author`
+2. **Options array (for custom variables):**
+   - Each option must have: `Identifier`, `Name`, `Type`, `Required` (if applicable)
+   - `Identifier` must match the variable name in Swift files (without `___VARIABLE_` prefix and `___` suffix)
+   - `Type` must be valid (`text`, `static`, `popup`, etc.)
+3. **File references:**
+   - `MainTemplateFile` must reference a file that exists in the template directory
+   - All files referenced in template structure must exist
+4. **Platforms:**
+   - Must include `com.apple.platform.iphoneos` for iOS templates
+5. **AllowedTypes:**
+   - Must include `public.swift-source` for Swift file templates
+
+ASSETS (if applicable)
+- Template icons (`TemplateIcon.png`, `TemplateIcon@2x.png`) should be valid PNG files.
+- If adding or modifying icons, ensure they're properly sized (typically 128x128 for @1x, 256x256 for @2x).
+- Icons are optional but recommended for better Xcode integration.
+
+TESTING & VALIDATION
+- After template changes, verify:
+  - All Xcode variables are correctly formatted
+  - `TemplateInfo.plist` is valid XML and contains all required keys
+  - Template structure matches intended output
+  - Generated code would be compilable (syntax check)
+- In the reasoning section, explicitly state:
+  - Which template was modified/created
+  - What variables are used and their purpose
+  - If `TemplateInfo.plist` was updated, confirm all validations passed
+  - Any manual testing steps needed (e.g., "Test template generation in Xcode to verify variable substitution")
+
+FLOW CONTROL
+- After delivering template changes + commit message, stop and wait for the user to request the next change.
+- If multiple templates need changes, handle them one at a time unless explicitly requested together.
