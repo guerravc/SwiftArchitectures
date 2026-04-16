@@ -42,15 +42,6 @@
     <string>com.apple.platform.iphoneos</string>
   </array>
 
-  <key>AllowedTypes</key>
-  <array>
-    <string>public.swift-source</string>
-  </array>
-
-  <!-- Root file for the template; we añadiremos ___FILEBASENAME___.swift -->
-  <key>MainTemplateFile</key>
-  <string>___FILEBASENAME___</string>
-
   <key>SortOrder</key>
   <string>0</string>
 

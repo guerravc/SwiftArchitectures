@@ -42,14 +42,6 @@
 		<string>com.apple.platform.iphoneos</string>
 	</array>
 
-	<key>AllowedTypes</key>
-	<array>
-		<string>public.swift-source</string>
-	</array>
-
-	<key>MainTemplateFile</key>
-	<string>___FILEBASENAME___View</string>
-
 	<key>SortOrder</key>
 	<string>0</string>
 

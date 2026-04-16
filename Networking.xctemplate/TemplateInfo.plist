@@ -20,15 +20,6 @@
     <string>com.apple.platform.iphoneos</string>
   </array>
 
-  <key>AllowedTypes</key>
-  <array>
-    <string>public.swift-source</string>
-  </array>
-
-  <!-- Archivo raíz “dummy” del template; lo definiremos como ___FILEBASENAME___.swift -->
-  <key>MainTemplateFile</key>
-  <string>___FILEBASENAME___.swift</string>
-
   <key>SortOrder</key>
   <string>0</string>
 
