@@ -2,9 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>DefaultCompletionName</key>
-	<string>MyMVVMModule</string>
-
 	<key>Description</key>
 	<string>SwiftUI MVVM feature module. Creates View, ViewModel and Model structure.</string>
 
