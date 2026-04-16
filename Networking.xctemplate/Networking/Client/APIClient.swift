@@ -5,7 +5,7 @@ import Foundation
 /// High-level HTTP client built on top of `APIRequestDispatching`.
 /// This client is responsible for decoding JSON payloads into `Decodable` types
 /// and exposing convenient APIs for one-shot requests and server-sent events (SSE).
-public protocol APIClient {
+public protocol APIClient: Sendable {
   /// Performs a one-shot HTTP request and decodes the response body into a `Decodable` type.
   ///
   /// El tipo genérico `T` se infiere a partir del contexto donde se llama,
@@ -47,7 +47,7 @@ public protocol APIClient {
 
 /// Default implementation of `APIClient` that uses an `APIRequestDispatching`
 /// instance to perform HTTP requests and JSON decoding.
-public final class DefaultAPIClient: APIClient {
+public final class DefaultAPIClient: APIClient, @unchecked Sendable {
   
   /// Dispatcher responsible for executing HTTP requests.
   private let dispatcher: APIRequestDispatching
@@ -108,12 +108,15 @@ public final class DefaultAPIClient: APIClient {
   
   /// Starts a server-sent events (SSE) stream and returns a typed `AsyncStream`.
   ///
+  /// SSE decoding uses the `JSONDecoder` injected into the `APIRequestDispatcher`.
+  /// For consistent behavior, initialise both the dispatcher and this client
+  /// with the same decoder instance.
+  ///
   /// - Parameter route: Endpoint definition.
   /// - Returns: A result containing an `AsyncStream` of decoded values or a `NetworkError`.
   public func stream<T: Decodable>(
     _ route: APIRouter
   ) async -> Result<AsyncStream<T>, NetworkError> {
-    // Aquí seguimos delegando en el dispatcher, que aún recibe `as: T.Type`.
     await dispatcher.stream(route)
   }
 }

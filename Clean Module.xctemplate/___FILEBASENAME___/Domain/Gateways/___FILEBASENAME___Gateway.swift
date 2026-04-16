@@ -8,7 +8,7 @@ import Foundation
 /// to interact with data sources (remote and/or local).
 /// Concrete implementations live in the Data layer and should not leak
 /// infrastructure details (networking, persistence, etc.) into the domain.
-public protocol ___VARIABLE_moduleName___Gateway {
+public protocol ___VARIABLE_moduleName___Gateway: Sendable {
   /// Fetches the main entity for the given request.
   ///
   /// - Parameter request: Request model containing the parameters required

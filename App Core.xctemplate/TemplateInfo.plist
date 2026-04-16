@@ -13,6 +13,14 @@
 
   <key>Options</key>
   <array>
+    <dict>
+      <key>Default</key>
+      <string>AppCore</string>
+      <key>Identifier</key>
+      <string>productName</string>
+      <key>Type</key>
+      <string>static</string>
+    </dict>
   </array>
 
   <key>Platforms</key>

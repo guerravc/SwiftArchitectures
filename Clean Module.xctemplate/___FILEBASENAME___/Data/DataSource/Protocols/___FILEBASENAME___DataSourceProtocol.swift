@@ -13,24 +13,24 @@ import Foundation
 ///
 /// The method signatures included here are examples and should be customized
 /// depending on the requirements of the module.
-public protocol ___VARIABLE_moduleName___RemoteDataSource {
-  
+public protocol ___VARIABLE_moduleName___RemoteDataSource: Sendable {
+
   /// Fetches data from the remote backend using the given request.
   ///
   /// - Parameter request: The request model with parameters required by the backend.
-/// - Returns: A `BaseResponse` wrapping the module-specific response.
-/// - Throws: A `NetworkError` or decoding error.
+  /// - Returns: A `BaseResponse` wrapping the module-specific response DTO.
+  /// - Throws: A `NetworkError` or decoding error.
   func fetch(
     _ request: ___VARIABLE_moduleName___Request
-  ) async throws -> BaseResponse<___VARIABLE_moduleName___Response>
-  
-  /// Persists the given entity on the remote backend (create, update, delete, etc.).
+  ) async throws -> BaseResponse<___VARIABLE_moduleName___ResponseDTO>
+
+  /// Persists the given entity DTO on the remote backend (create, update, delete, etc.).
   ///
-  /// - Parameter entity: The entity instance to be sent to the backend.
-/// - Returns: An `EmptyBaseResponse` describing backend status and message.
-/// - Throws: A `NetworkError` or decoding error.
+  /// - Parameter dto: The entity DTO to be sent to the backend.
+  /// - Returns: An `EmptyBaseResponse` describing backend status and message.
+  /// - Throws: A `NetworkError` or decoding error.
   func persist(
-    _ entity: ___VARIABLE_moduleName___Entity
+    _ dto: ___VARIABLE_moduleName___EntityDTO
   ) async throws -> EmptyBaseResponse
 }
 
@@ -44,22 +44,22 @@ public protocol ___VARIABLE_moduleName___RemoteDataSource {
 ///
 /// The method signatures below are examples and should be modified according
 /// to the persistence needs of each feature.
-public protocol ___VARIABLE_moduleName___LocalDataSource {
-  
+public protocol ___VARIABLE_moduleName___LocalDataSource: Sendable {
+
   /// Loads a cached entity from local storage, if available.
   ///
   /// - Returns: A cached instance of the module entity, or `nil` if none exists.
-/// - Throws: An error if the read operation fails.
+  /// - Throws: An error if the read operation fails.
   func loadCachedEntity() async throws -> ___VARIABLE_moduleName___Entity?
-  
+
   /// Saves the given entity to local storage.
   ///
   /// - Parameter entity: The entity to persist locally.
-/// - Throws: An error if the write operation fails.
+  /// - Throws: An error if the write operation fails.
   func save(
     _ entity: ___VARIABLE_moduleName___Entity
   ) async throws
-  
+
   /// Clears any cached data associated with the module.
   ///
   /// - Throws: An error if the clear operation fails.

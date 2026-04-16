@@ -5,7 +5,7 @@ import Foundation
 /// Represents the supported API versions for the backend.
 /// The default version is `.v1`. Developers may update this value manually
 /// if the backend version changes.
-public enum APIVersion: Int {
+public enum APIVersion: Int, Sendable {
   /// API version 1.
   case v1 = 1
   

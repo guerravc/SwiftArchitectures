@@ -6,13 +6,21 @@
   <string>NetworkingCore</string>
 
   <key>Description</key>
-  <string>Installs a reusable networking core: configuration, HTTP primitives, request building, dispatcher, client and optional SSE streaming support.</string>
+  <string>Installs a reusable networking core: configuration, HTTP primitives, request building, dispatcher, client and optional SSE streaming support. Requires App Core template installed for AppInfo and base protocols.</string>
 
   <key>Kind</key>
   <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
 
   <key>Options</key>
   <array>
+    <dict>
+      <key>Default</key>
+      <string>NetworkingCore</string>
+      <key>Identifier</key>
+      <string>productName</string>
+      <key>Type</key>
+      <string>static</string>
+    </dict>
   </array>
 
   <key>Platforms</key>

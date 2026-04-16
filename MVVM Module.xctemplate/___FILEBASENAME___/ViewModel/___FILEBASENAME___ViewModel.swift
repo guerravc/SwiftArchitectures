@@ -7,11 +7,10 @@ import Foundation
 ///
 /// This protocol defines all presentation requirements the View relies on.
 /// It allows mocking or replacing the view model in tests or previews.
+@MainActor
 protocol ___VARIABLE_moduleName___ViewModelProtocol: AnyObject {
     var title: String { get }
-    var isLoading: Bool { get }
-    var errorMessage: String? { get }
-    var items: [___VARIABLE_moduleName___Model] { get }
+    var state: ___VARIABLE_moduleName___ViewModel.ViewState { get }
 
     func onAppear() async
     func reload() async
@@ -24,22 +23,36 @@ protocol ___VARIABLE_moduleName___ViewModelProtocol: AnyObject {
 ///
 /// Replace the stubbed async calls with real logic depending on
 /// your project's architecture (Clean, Networking, Services, etc.).
+///
+/// - ADR-004: `@MainActor` is applied for Swift 6 strict concurrency readiness.
+///   While `@Observable` handles SwiftUI observation correctly without it in
+///   Swift 5.9, strict concurrency checking requires explicit main-actor isolation
+///   for types that mutate state observed by the UI.
+@MainActor
 @Observable
 final class ___VARIABLE_moduleName___ViewModel: ___VARIABLE_moduleName___ViewModelProtocol {
+
+    // MARK: - ViewState
+
+    /// Represents the possible presentation states of the view.
+    enum ViewState {
+        /// Initial state before any data has been requested.
+        case idle
+        /// Data is being fetched.
+        case loading
+        /// Data was loaded successfully.
+        case loaded([___VARIABLE_moduleName___Model])
+        /// An error occurred while fetching data.
+        case error(String)
+    }
 
     // MARK: - Presentation State
 
     /// Title displayed in the navigation bar.
     var title: String = "___VARIABLE_moduleName___"
 
-    /// Indicates whether the view is currently loading data.
-    var isLoading: Bool = false
-
-    /// Keeps the latest error message (if any).
-    var errorMessage: String?
-
-    /// Items displayed by the view.
-    var items: [___VARIABLE_moduleName___Model] = []
+    /// Current presentation state of the view.
+    var state: ViewState = .idle
 
     // MARK: - Init
 
@@ -66,23 +79,22 @@ final class ___VARIABLE_moduleName___ViewModel: ___VARIABLE_moduleName___ViewMod
     /// - interacting with a use case
     /// - using the networking core
     private func loadData() async {
-        isLoading = true
-        errorMessage = nil
+        state = .loading
 
         do {
             try await Task.sleep(for: .seconds(1)) // Simulated delay
 
-            // Example mock data
-            items = [
+            let items: [___VARIABLE_moduleName___Model] = [
                 .init(id: UUID(), title: "Item 1", subtitle: "Example A"),
                 .init(id: UUID(), title: "Item 2", subtitle: "Example B"),
                 .init(id: UUID(), title: "Item 3", subtitle: nil)
             ]
 
+            state = .loaded(items)
+        } catch is CancellationError {
+            return
         } catch {
-            errorMessage = "Unable to load data."
+            state = .error("Unable to load data.")
         }
-
-        isLoading = false
     }
 }

@@ -56,7 +56,10 @@ public enum Log {
   ///
   /// - Parameters:
   ///   - message: The message to log.
-  ///   - instance: The instance originating the log. Used to print `selfId`.
+  ///   - instance: The instance originating the log. Must be a reference type
+  ///     (`AnyObject`) so `Unmanaged.passUnretained` can derive the pointer
+  ///     address used as `selfId` — enabling cross-thread identity tracking
+  ///     without requiring `Hashable` or `Identifiable`. (ADR-002)
   ///   - file: The file name where the log originates.
   ///   - function: The function name where the log originates.
   ///   - line: The line number where the log originates.
@@ -118,6 +121,10 @@ public enum Log {
   ///   - file: The file name where the log originates.
   ///   - function: The function name where the log originates.
   ///   - line: The line number where the log originates.
+  ///
+  /// - ADR-001: OSLog does not expose a `warning` level. `Logger.notice` is
+  ///   the closest semantic equivalent and is persisted by default, making it
+  ///   visible in Console.app without enabling debug-level logging.
   public static func warning(
     _ message: String,
     instance: AnyObject,

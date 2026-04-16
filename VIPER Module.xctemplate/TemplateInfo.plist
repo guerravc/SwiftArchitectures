@@ -34,7 +34,7 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>___VARIABLE_sceneName___ViewController</string>
+			<string>___VARIABLE_sceneName___SceneViewController</string>
 			<key>Description</key>
 			<string>The view controller name</string>
 			<key>Identifier</key>
@@ -48,7 +48,7 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>___VARIABLE_sceneName___Interactor</string>
+			<string>___VARIABLE_sceneName___SceneInteractor</string>
 			<key>Description</key>
 			<string>The interactor name</string>
 			<key>Identifier</key>
@@ -62,7 +62,7 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>___VARIABLE_sceneName___Presenter</string>
+			<string>___VARIABLE_sceneName___ScenePresenter</string>
 			<key>Description</key>
 			<string>The presenter name</string>
 			<key>Identifier</key>
@@ -76,7 +76,7 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>___VARIABLE_sceneName___Entity</string>
+			<string>___VARIABLE_sceneName___SceneEntity</string>
 			<key>Description</key>
 			<string>The model file name</string>
 			<key>Identifier</key>
@@ -90,7 +90,7 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>___VARIABLE_sceneName___Router</string>
+			<string>___VARIABLE_sceneName___SceneRouter</string>
 			<key>Description</key>
 			<string>The router name</string>
 			<key>Identifier</key>

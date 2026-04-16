@@ -6,19 +6,19 @@ import SwiftUI
 ///
 /// This view owns the lifecycle of the view model using a `@State` property.
 /// It renders different states (loading, error, empty, content) based on the
-/// view model's published properties.
+/// view model's `ViewState`.
 struct ___VARIABLE_moduleName___View: View {
-    
+
     // MARK: - State
-    
+
     /// View model driving the presentation logic for this module.
     ///
     /// The view owns the view model instance by storing it in `@State`.
     /// You can inject a custom instance for previews or testing.
     @State private var viewModel: ___VARIABLE_moduleName___ViewModel
-    
+
     // MARK: - Initializers
-    
+
     /// Creates a new instance of the view.
     ///
     /// - Parameter viewModel: Optional custom view model instance,
@@ -26,21 +26,22 @@ struct ___VARIABLE_moduleName___View: View {
     init(viewModel: ___VARIABLE_moduleName___ViewModel = .init()) {
         self._viewModel = State(initialValue: viewModel)
     }
-    
+
     // MARK: - View
-    
+
     /// Main view hierarchy for the module.
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.isLoading {
+                switch viewModel.state {
+                case .idle, .loading:
                     loadingView
-                } else if let errorMessage = viewModel.errorMessage {
-                    errorView(message: errorMessage)
-                } else if viewModel.items.isEmpty {
+                case .loaded(let items) where items.isEmpty:
                     emptyView
-                } else {
-                    contentView
+                case .loaded(let items):
+                    contentView(items: items)
+                case .error(let message):
+                    errorView(message: message)
                 }
             }
             .navigationTitle(viewModel.title)
@@ -49,9 +50,9 @@ struct ___VARIABLE_moduleName___View: View {
             await viewModel.onAppear()
         }
     }
-    
+
     // MARK: - Subviews
-    
+
     /// View displayed while the data is being loaded.
     private var loadingView: some View {
         VStack(spacing: 16) {
@@ -62,7 +63,7 @@ struct ___VARIABLE_moduleName___View: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    
+
     /// View displayed when an error occurs.
     ///
     /// - Parameter message: Error description to show to the user.
@@ -72,7 +73,7 @@ struct ___VARIABLE_moduleName___View: View {
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
-            
+
             Button(action: {
                 Task {
                     await viewModel.reload()
@@ -85,7 +86,7 @@ struct ___VARIABLE_moduleName___View: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(.primary)
     }
-    
+
     /// View displayed when there is no data to show.
     private var emptyView: some View {
         VStack(spacing: 8) {
@@ -97,10 +98,10 @@ struct ___VARIABLE_moduleName___View: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    
+
     /// Main content view when there is data available.
-    private var contentView: some View {
-        List(viewModel.items) { item in
+    private func contentView(items: [___VARIABLE_moduleName___Model]) -> some View {
+        List(items) { item in
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
                     .font(.headline)

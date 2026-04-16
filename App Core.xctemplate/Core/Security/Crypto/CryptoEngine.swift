@@ -1,6 +1,7 @@
 // ___FILEHEADER___
 
 import Foundation
+import os
 
 /// Defines the contract for a cryptographic engine used by the application.
 ///
@@ -70,9 +71,11 @@ public enum CryptoProvider {
 
     // MARK: - Storage
 
-    /// Currently configured engine instance.
+    /// Thread-safe storage for the configured engine instance.
     /// Defaults to `DefaultCryptoEngine`, which performs no real encryption.
-    private static var engine: CryptoEngine = DefaultCryptoEngine()
+    private static let engineLock = OSAllocatedUnfairLock<CryptoEngine>(
+        initialState: DefaultCryptoEngine()
+    )
 
     // MARK: - Configuration
 
@@ -84,7 +87,7 @@ public enum CryptoProvider {
     /// - Parameter newEngine: Engine responsible for encrypting and
     ///   decrypting sensitive values.
     public static func configure(_ newEngine: CryptoEngine) {
-        engine = newEngine
+        engineLock.withLock { $0 = newEngine }
     }
 
     // MARK: - High-level API
@@ -96,7 +99,8 @@ public enum CryptoProvider {
     /// - Throws: Any error thrown by the underlying engine.
     @discardableResult
     public static func encrypt(_ value: String) throws -> String {
-        try engine.encrypt(value)
+        let engine = engineLock.withLock { $0 }
+        return try engine.encrypt(value)
     }
 
     /// Decrypts the given encrypted value using the configured engine.
@@ -106,7 +110,8 @@ public enum CryptoProvider {
     /// - Throws: Any error thrown by the underlying engine.
     @discardableResult
     public static func decrypt(_ value: String) throws -> String {
-        try engine.decrypt(value)
+        let engine = engineLock.withLock { $0 }
+        return try engine.decrypt(value)
     }
 }
 

@@ -3,7 +3,7 @@
 import Foundation
 
 /// Represents the supported HTTP methods for requests.
-public enum HTTPMethod: String {
+public enum HTTPMethod: String, Sendable {
   /// The GET method requests a representation of the specified resource.
   case get = "GET"
   /// The POST method is used to submit an entity to the specified resource.
@@ -21,7 +21,7 @@ public enum HTTPMethod: String {
 }
 
 /// Represents a subset of HTTP status codes commonly used in client applications.
-public enum HTTPStatusCode: Int {
+public enum HTTPStatusCode: Int, Sendable {
   // MARK: Informational (1xx)
   
   /// The server has received the request headers and the client should proceed to send the request body.
@@ -120,7 +120,7 @@ public enum HTTPStatusCode: Int {
 }
 
 /// Represents errors that can occur during networking operations.
-public enum NetworkError: Error {
+public enum NetworkError: Error, @unchecked Sendable {
   /// The URL could not be constructed or is invalid.
   case invalidURL
   /// A low-level transport error occurred (e.g., network connectivity issues).
@@ -133,6 +133,8 @@ public enum NetworkError: Error {
   case decodingError(Error)
   /// The status code is not mapped to a known `HTTPStatusCode`.
   case unacceptableStatusCode(Int, Data?)
+  /// The request was explicitly cancelled by the caller.
+  case cancelled
   /// An unknown or unexpected error occurred.
   case unknown
 }
@@ -153,6 +155,8 @@ extension NetworkError: LocalizedError {
       return "Failed to decode response: \(error.localizedDescription)"
     case .unacceptableStatusCode(let code, _):
       return "Received unacceptable status code: \(code)."
+    case .cancelled:
+      return "The request was cancelled."
     case .unknown:
       return "An unknown networking error occurred."
     }

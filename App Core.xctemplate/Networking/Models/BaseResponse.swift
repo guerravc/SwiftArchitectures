@@ -1,5 +1,10 @@
 // ___FILEHEADER___
 
+// ADR-003: These response models live in App Core (not in the Networking template)
+// so that Use Case and Clean Module templates can depend solely on App Core without
+// pulling in the full Networking stack. This keeps the dependency graph shallow:
+// Clean Module -> App Core (not Clean Module -> Networking -> App Core).
+
 import Foundation
 
 /// Generic envelope for API responses that wrap a domain value with status and message metadata.
@@ -22,8 +27,8 @@ public struct BaseResponse<Value: Decodable & Sendable>: Decodable, Sendable {
   /// Creates a new `BaseResponse` instance.
   /// - Parameters:
   ///   - status: Internal status code returned by the backend.
-///   - message: Message associated with the response.
-///   - object: Wrapped payload returned by the backend.
+  ///   - message: Message associated with the response.
+  ///   - object: Wrapped payload returned by the backend.
   public init(
     status: Int,
     message: String,
@@ -65,8 +70,8 @@ public struct ErrorResponse: Decodable, Sendable, Error {
   /// Creates a new `ErrorResponse` instance.
   /// - Parameters:
   ///   - status: Internal status code describing the error.
-///   - message: Human-readable message describing the error.
-///   - code: Optional error code returned by the backend.
+  ///   - message: Human-readable message describing the error.
+  ///   - code: Optional error code returned by the backend.
   public init(
     status: Int,
     message: String,

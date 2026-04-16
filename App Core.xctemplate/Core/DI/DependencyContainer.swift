@@ -1,52 +1,50 @@
 // ___FILEHEADER___
 
 import Foundation
+import os
 
 /// A lightweight, thread-safe dependency injection container.
 /// This container allows registration and resolution of dependencies by type
 /// and optional name, without relying on external libraries.
 /// Use this type as the central service graph for the application.
-public final class DependencyContainer {
+public final class DependencyContainer: @unchecked Sendable {
   // MARK: - Types
-  
+
   /// A unique key used to identify a registered service entry.
-  private struct ServiceKey: Hashable {
+  private struct ServiceKey: Hashable, Sendable {
     /// The identifier of the service type.
     let type: ObjectIdentifier
     /// An optional registration name to distinguish multiple bindings of the same type.
     let name: String?
   }
-  
+
   /// Represents a registered service entry in the container.
-  private enum ServiceEntry {
+  private enum ServiceEntry: @unchecked Sendable {
     /// A pre-built instance that will be returned as-is.
     case instance(Any)
     /// A factory closure used to create new instances on demand.
     case factory(() -> Any)
   }
-  
+
   // MARK: - Singleton
-  
+
   /// Shared container instance used across the application.
   public static let shared = DependencyContainer()
-  
+
   // MARK: - Internal state
-  
-  private let queue = DispatchQueue(
-    label: "com.appcore.dependencycontainer.queue",
-    attributes: .concurrent
+
+  private let storage = OSAllocatedUnfairLock(
+    initialState: [ServiceKey: ServiceEntry]()
   )
-  
-  private var services: [ServiceKey: ServiceEntry] = [:]
-  
+
   // MARK: - Initializers
-  
+
   /// Creates a new dependency container instance.
   /// - Note: Use `DependencyContainer.shared` for the shared application container.
   public init() { }
-  
+
   // MARK: - Registration (instance)
-  
+
   /// Registers a singleton instance for the given type and optional name.
   /// - Parameters:
   ///   - type: The type to associate with the instance.
@@ -60,14 +58,10 @@ public final class DependencyContainer {
     _ instance: T
   ) -> Self {
     let key = ServiceKey(type: ObjectIdentifier(type), name: name)
-    
-    queue.async(flags: .barrier) { [weak self] in
-      self?.services[key] = .instance(instance)
-    }
-    
+    storage.withLock { $0[key] = .instance(instance) }
     return self
   }
-  
+
   /// Registers a singleton instance for the given type and optional name
   /// in the shared container.
   /// - Parameters:
@@ -82,9 +76,9 @@ public final class DependencyContainer {
   ) -> DependencyContainer {
     shared.registerSingleton(type, name: name, instance)
   }
-  
+
   // MARK: - Registration (factory)
-  
+
   /// Registers a factory closure for the given type and optional name.
   /// The factory is invoked each time the dependency is resolved.
   /// - Parameters:
@@ -99,14 +93,10 @@ public final class DependencyContainer {
     _ factory: @escaping () -> T
   ) -> Self {
     let key = ServiceKey(type: ObjectIdentifier(type), name: name)
-    
-    queue.async(flags: .barrier) { [weak self] in
-      self?.services[key] = .factory(factory)
-    }
-    
+    storage.withLock { $0[key] = .factory(factory) }
     return self
   }
-  
+
   /// Registers a factory closure for the given type and optional name
   /// in the shared container.
   /// - Parameters:
@@ -121,9 +111,9 @@ public final class DependencyContainer {
   ) -> DependencyContainer {
     shared.registerFactory(type, name: name, factory)
   }
-  
+
   // MARK: - Resolving
-  
+
   /// Resolves a dependency for the given type and optional name.
   /// - Parameters:
   ///   - type: The type of the dependency to resolve.
@@ -142,10 +132,10 @@ public final class DependencyContainer {
         """
       )
     }
-    
+
     return resolved
   }
-  
+
   /// Resolves an optional dependency for the given type and optional name.
   /// - Parameters:
   ///   - type: The type of the dependency to resolve.
@@ -156,15 +146,12 @@ public final class DependencyContainer {
     name: String? = nil
   ) -> T? {
     let key = ServiceKey(type: ObjectIdentifier(type), name: name)
-    
-    let entry: ServiceEntry? = queue.sync {
-      services[key]
-    }
-    
+    let entry = storage.withLock { $0[key] }
+
     guard let serviceEntry = entry else {
       return nil
     }
-    
+
     switch serviceEntry {
     case .instance(let any):
       return any as? T
@@ -172,7 +159,7 @@ public final class DependencyContainer {
       return factory() as? T
     }
   }
-  
+
   /// Resolves a dependency from the shared container.
   /// - Parameters:
   ///   - type: The type of the dependency to resolve.
@@ -185,7 +172,7 @@ public final class DependencyContainer {
   ) -> T {
     shared.resolve(type, name: name)
   }
-  
+
   /// Resolves an optional dependency from the shared container.
   /// - Parameters:
   ///   - type: The type of the dependency to resolve.
@@ -197,18 +184,16 @@ public final class DependencyContainer {
   ) -> T? {
     shared.resolveOptional(type, name: name)
   }
-  
+
   // MARK: - Reset
-  
+
   /// Removes all registered dependencies from the container.
   /// - Note: This method is intended for testing scenarios or when rebuilding
   ///   the service graph at runtime.
   public func reset() {
-    queue.async(flags: .barrier) { [weak self] in
-      self?.services.removeAll()
-    }
+    storage.withLock { $0.removeAll() }
   }
-  
+
   /// Removes all registered dependencies from the shared container.
   /// - Note: This method is intended for testing scenarios or when rebuilding
   ///   the service graph at runtime.

@@ -62,7 +62,22 @@ public enum AppInfo {
 
 public extension AppInfo {
   /// The name of the operating system running the application.
-  static let osName: String = "iOS"
+  /// Resolved at compile time via platform conditional compilation.
+  static let osName: String = {
+    #if os(iOS)
+    return "iOS"
+    #elseif os(macOS)
+    return "macOS"
+    #elseif os(watchOS)
+    return "watchOS"
+    #elseif os(tvOS)
+    return "tvOS"
+    #elseif os(visionOS)
+    return "visionOS"
+    #else
+    return "Unknown"
+    #endif
+  }()
 
   /// The version of the operating system running the application.
   /// The value is formatted as "major.minor.patch".

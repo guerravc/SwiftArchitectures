@@ -41,6 +41,7 @@ Generates a complete **Clean Architecture** feature module, including:
 - `Domain/Entities/___VARIABLE_moduleName___Entity.swift`
 - `Domain/Gateways/___VARIABLE_moduleName___Gateway.swift`
 - `Domain/UseCases/Fetch___VARIABLE_moduleName___UC.swift`
+- `Data/Models/___VARIABLE_moduleName___DTO.swift`
 - `Data/Protocols/___VARIABLE_moduleName___DataSourceProtocol.swift`
 - `Data/Services/Default___VARIABLE_moduleName___Service.swift`
 - `Data/PersistentStorages/Default___VARIABLE_moduleName___Storage.swift`
@@ -157,6 +158,51 @@ These templates aim to:
 - Make onboarding **new iOS developers** easier  
 
 They are intentionally **opinionated** but designed to be extended and customized.
+
+---
+
+## Architecture Decisions
+
+This section documents key design choices that have been evaluated and confirmed.
+Its purpose is to prevent future audits (human or automated) from re-raising
+resolved concerns. Each entry includes a short rationale and a reference tag
+used in inline code comments (e.g. `ADR-001`).
+
+### ADR-001 — `Logger.notice` as warning level
+
+OSLog (`Logger`) does not expose a `.warning` level. The closest semantic
+equivalent is `.notice`, which is persisted by default and visible in
+Console.app without enabling debug-level logging. The public API of `Log`
+exposes `Log.warning(...)` for clarity while using `logger.notice` internally.
+
+### ADR-002 — `AnyObject` for identity tracking in Log
+
+The `instance` parameter in every `Log` method requires a reference type
+(`AnyObject`) so that `Unmanaged.passUnretained(_:).toOpaque()` can derive
+the object's memory address. This address is printed as `selfId` in each log
+line, enabling cross-thread identity tracking without requiring conformance
+to `Hashable` or `Identifiable`.
+
+### ADR-003 — Response models in App Core (not Networking)
+
+`BaseResponse`, `EmptyBaseResponse`, and `ErrorResponse` live in the App Core
+template instead of the Networking template. This allows the Use Case and Clean
+Module templates to depend solely on App Core without pulling in the full
+Networking stack, keeping the dependency graph shallow:
+
+```
+Clean Module ──> App Core
+                   (contains BaseResponse, ErrorResponse)
+Networking ────> App Core
+```
+
+### ADR-004 — `@MainActor` on MVVM ViewModels
+
+The `@Observable` macro handles UI observation correctly in SwiftUI even
+without `@MainActor`. However, Swift 6 strict concurrency checking will emit
+warnings for observable classes that mutate published state without explicit
+main-actor isolation. `@MainActor` is applied proactively to ensure the
+templates are Swift 6–ready out of the box.
 
 ---
 

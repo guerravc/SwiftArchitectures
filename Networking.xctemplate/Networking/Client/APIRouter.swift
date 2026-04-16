@@ -5,7 +5,7 @@ import Foundation
 /// Describes the type of authorization required by an endpoint.
 /// This information can be used by the request builder or dispatcher
 /// to apply the appropriate Authorization header.
-public enum AuthorizationType {
+public enum AuthorizationType: Sendable {
   /// No authorization is required.
   case none
   /// Bearer token authorization (e.g., "Bearer &lt;token&gt;").

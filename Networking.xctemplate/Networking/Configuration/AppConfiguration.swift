@@ -78,13 +78,25 @@ public extension AppConfiguration {
   }
   
   /// Full base URL constructed from scheme, host and base path.
+  ///
+  /// If the URL cannot be built (e.g. missing host in Info.plist), an
+  /// `assertionFailure` is raised in DEBUG builds so the misconfiguration
+  /// is caught early. In RELEASE builds the fallback URL will cause a clear
+  /// server error rather than a silent logic bug.
   static var apiBaseURL: URL {
     var components = URLComponents()
     components.scheme = apiScheme
     components.host = apiHost
     components.path = apiBasePath
-    
-    return components.url ?? URL(string: "https://invalid.url")!
+
+    guard let url = components.url, !apiHost.isEmpty else {
+      assertionFailure(
+        "apiBaseURL could not be constructed. Verify API_SCHEME, API_HOST, and API_BASE_PATH in Info.plist."
+      )
+      return URL(string: "https://misconfigured.invalid")!
+    }
+
+    return url
   }
   
   /// Optional bucket URL (for file uploads, images, etc.).
