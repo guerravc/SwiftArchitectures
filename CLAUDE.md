@@ -56,7 +56,8 @@ MVVM / VIPER        presentation skeletons; they do not import the other templat
 - `MainTemplateFile` omits the `.swift` extension. Only Use Case and VIPER set `AllowedTypes` and `MainTemplateFile`. App Core, Networking, Clean, and MVVM omit them and still ship. Do not normalize plists unless the change requires those keys. Do not re-add `DefaultCompletionName` to Clean or MVVM; it was removed so the completion name follows `productName`.
 - Keep `___VARIABLE_*___` tokens intact. A Swift file that drops the token will not substitute.
 - Do not edit an unrelated `.xctemplate` while changing another.
-- Inline docs in generated Swift stay in English. Comment tags `ADR-001` … `ADR-004` match **Architecture Decisions** in `README.md`. Do not reopen them unless asked: `Log.warning` maps to `Logger.notice`; log identity requires `AnyObject`; response models stay in App Core; MVVM view models stay `@MainActor`.
+- Inline docs in generated Swift stay in English. Comment tags `ADR-001` … `ADR-005` match **Architecture Decisions** in `README.md`. Do not reopen them unless asked: `Log.warning` maps to `Logger.notice`; log identity requires `AnyObject`; response models stay in App Core; MVVM view models stay `@MainActor`.
+- New Xcode projects set `SWIFT_DEFAULT_ACTOR_ISOLATION` to `MainActor`. App Core infrastructure (`BaseResponse`, `DependencyContainer`, `Log`, `AppInfo`, crypto, decoding helpers) is marked `nonisolated` so `Sendable` conformances and the lock compile and can run off the main actor (ADR-005). Do not remove those keywords. Do not mark `CancellableTask` `nonisolated`; it is for `@MainActor` view models.
 
 ## Rules that apply here
 

@@ -47,7 +47,7 @@ import Foundation
 /// CryptoProvider.configure(MyCryptoEngine())
 /// ```
 @propertyWrapper
-public struct Crypted: Codable, Sendable {
+public nonisolated struct Crypted: Codable, Sendable {
 
     // MARK: - Stored Value
 

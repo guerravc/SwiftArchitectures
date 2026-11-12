@@ -4,7 +4,7 @@ import Foundation
 
 /// Provides basic information about the current application and operating system.
 /// This type reads values from the main bundle and the current process.
-public enum AppInfo {
+public nonisolated enum AppInfo {
   /// The display name of the application.
   /// Falls back to the bundle name if the display name is not available.
   public static var appName: String {
@@ -60,7 +60,7 @@ public enum AppInfo {
   }
 }
 
-public extension AppInfo {
+public nonisolated extension AppInfo {
   /// The name of the operating system running the application.
   /// Resolved at compile time via platform conditional compilation.
   static let osName: String = {

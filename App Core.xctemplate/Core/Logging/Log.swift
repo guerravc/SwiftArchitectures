@@ -9,7 +9,7 @@ import os
 ///
 /// In DEBUG builds, all log levels are emitted.
 /// In RELEASE builds, only warnings and errors are emitted.
-public enum Log {
+public nonisolated enum Log {
 
   // MARK: - Logger
 

@@ -4,13 +4,17 @@
 // so that Use Case and Clean Module templates can depend solely on App Core without
 // pulling in the full Networking stack. This keeps the dependency graph shallow:
 // Clean Module -> App Core (not Clean Module -> Networking -> App Core).
+//
+// ADR-005: `nonisolated` opts these models out of SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor.
+// A main-actor-isolated Decodable conformance cannot satisfy a Sendable type parameter,
+// so `BaseResponse<EmptyResponseBody>` fails to compile in new Xcode projects.
 
 import Foundation
 
 /// Generic envelope for API responses that wrap a domain value with status and message metadata.
 /// This structure is meant to represent the "business" status returned by the backend,
 /// even when the HTTP status code is 200.
-public struct BaseResponse<Value: Decodable & Sendable>: Decodable, Sendable {
+public nonisolated struct BaseResponse<Value: Decodable & Sendable>: Decodable, Sendable {
   /// Internal status code returned by the backend.
   public let status: Int
   /// Message associated with the response, typically used for user-facing or log messages.
@@ -49,7 +53,7 @@ public struct BaseResponse<Value: Decodable & Sendable>: Decodable, Sendable {
 /// Represents an empty payload for responses that do not return a body.
 /// This type is useful when the backend still wraps the response in a `BaseResponse`
 /// but there is no meaningful data to decode.
-public struct EmptyResponseBody: Codable, Sendable {
+public nonisolated struct EmptyResponseBody: Codable, Sendable {
   /// Creates a new instance of `EmptyResponseBody`.
   public init() { }
 }
@@ -59,7 +63,7 @@ public typealias EmptyBaseResponse = BaseResponse<EmptyResponseBody>
 
 /// Represents an error payload returned by the backend.
 /// This type can be used either as a direct model or as a payload inside `BaseResponse`.
-public struct ErrorResponse: Decodable, Sendable, Error {
+public nonisolated struct ErrorResponse: Decodable, Sendable, Error {
   /// Internal status code describing the error.
   public let status: Int
   /// Human-readable message describing the error.

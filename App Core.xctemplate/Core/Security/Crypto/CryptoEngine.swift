@@ -19,7 +19,7 @@ import os
 ///
 /// You are expected to provide your own implementation that delegates to
 /// your preferred crypto framework.
-public protocol CryptoEngine: Sendable {
+public nonisolated protocol CryptoEngine: Sendable {
     /// Encrypts the given plain text value.
     ///
     /// - Parameter value: Plain text to be encrypted.
@@ -67,7 +67,7 @@ public protocol CryptoEngine: Sendable {
 /// High-level APIs such as the `@Crypted` property wrapper should call
 /// `CryptoProvider.encrypt(_:)` and `CryptoProvider.decrypt(_:)` instead of
 /// talking to the engine directly.
-public enum CryptoProvider {
+public nonisolated enum CryptoProvider {
 
     // MARK: - Storage
 
@@ -123,7 +123,7 @@ public enum CryptoProvider {
 ///   allow the template to compile and run out of the box.
 ///
 /// You MUST replace this with your own implementation in production code.
-struct DefaultCryptoEngine: CryptoEngine {
+nonisolated struct DefaultCryptoEngine: CryptoEngine {
 
     /// Default encryption implementation.
     ///

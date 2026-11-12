@@ -196,6 +196,14 @@ Clean Module ──> App Core
 Networking ────> App Core
 ```
 
+### ADR-005 — App Core infrastructure is `nonisolated`
+
+New Xcode projects set `SWIFT_DEFAULT_ACTOR_ISOLATION` to `MainActor` and enable approachable concurrency. Under that default, a synthesized `Decodable` or `Hashable` conformance is main-actor isolated. That conformance cannot satisfy a `Sendable` generic requirement (`BaseResponse<EmptyResponseBody>` does not compile) and cannot be used inside `OSAllocatedUnfairLock` (`ServiceKey`; an error in the Swift 6 language mode).
+
+App Core is a shared foundation, not UI. Response models, `DependencyContainer`, `Log`, `AppInfo`, the crypto types, and the `KeyedDecodingContainer` helpers are marked `nonisolated` so decoding, logging, and the lock stay usable off the main actor. `nonisolated` on a type is a no-op when the project has no default actor isolation, so older projects still compile.
+
+`CancellableTask`, `Inject`, and `Provider` keep the project's default isolation. `CancellableTask` is documented for `@MainActor` view models. The use-case protocols are unmarked so they follow the consumer project's isolation instead of forcing every use case off the main actor.
+
 ### ADR-004 — `@MainActor` on MVVM ViewModels
 
 The `@Observable` macro handles UI observation correctly in SwiftUI even

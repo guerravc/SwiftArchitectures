@@ -8,7 +8,7 @@ import Foundation
 /// This extension adds resilient decoding capabilities to `KeyedDecodingContainer`, allowing
 /// automatic type conversion when the JSON value type doesn't match the expected Swift type.
 /// It supports converting between String, Int, Double, Bool, and complex types (arrays/dictionaries).
-extension KeyedDecodingContainer {
+nonisolated extension KeyedDecodingContainer {
 
     /// Safely decodes a value of the specified type, attempting multiple conversion strategies.
     ///
