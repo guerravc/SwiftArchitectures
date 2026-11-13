@@ -13,7 +13,7 @@ import Foundation
 ///
 /// Serialization is handled by separate DTO types in the Data layer,
 /// keeping domain models free of `Codable` coupling.
-public struct ___VARIABLE_moduleName___Entity: Equatable, Sendable {
+public nonisolated struct ___VARIABLE_moduleName___Entity: Equatable, Sendable {
   /// Example identifier for the entity.
   public let id: UUID
   /// Example display name for the entity.
@@ -39,7 +39,7 @@ public struct ___VARIABLE_moduleName___Entity: Equatable, Sendable {
 
 /// Request model used to send parameters required by the ___VARIABLE_moduleName___ module.
 /// This type is typically encoded and sent as JSON in the request body or as query parameters.
-public struct ___VARIABLE_moduleName___Request: Codable, Equatable, Sendable {
+public nonisolated struct ___VARIABLE_moduleName___Request: Codable, Equatable, Sendable {
   /// Example parameter used to identify or filter the request.
   public let identifier: String
   /// Example parameter used to pass additional payload to the backend.
@@ -63,7 +63,7 @@ public struct ___VARIABLE_moduleName___Request: Codable, Equatable, Sendable {
 ///
 /// The corresponding `Codable` DTO (`___VARIABLE_moduleName___ResponseDTO`) lives in the
 /// Data layer and provides `toDomain()` mapping.
-public struct ___VARIABLE_moduleName___Response: Equatable, Sendable {
+public nonisolated struct ___VARIABLE_moduleName___Response: Equatable, Sendable {
   /// The main entity returned by the backend.
   public let entity: ___VARIABLE_moduleName___Entity
   /// Example additional numeric value returned by the backend.

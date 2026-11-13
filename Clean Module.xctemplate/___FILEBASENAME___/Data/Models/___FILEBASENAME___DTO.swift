@@ -10,7 +10,7 @@ import Foundation
 ///
 /// Use `toDomain()` to convert to the domain entity, and `init(entity:)` to
 /// convert a domain entity back to a DTO for encoding.
-public struct ___VARIABLE_moduleName___EntityDTO: Codable, Sendable {
+public nonisolated struct ___VARIABLE_moduleName___EntityDTO: Codable, Sendable {
   /// Entity identifier.
   public let id: UUID
   /// Display name.
@@ -47,7 +47,7 @@ public struct ___VARIABLE_moduleName___EntityDTO: Codable, Sendable {
 ///
 /// This type wraps `___VARIABLE_moduleName___EntityDTO` and is decoded directly from
 /// the backend JSON. Use `toDomain()` to convert to the domain response.
-public struct ___VARIABLE_moduleName___ResponseDTO: Codable, Sendable {
+public nonisolated struct ___VARIABLE_moduleName___ResponseDTO: Codable, Sendable {
   /// The entity DTO as received from the backend.
   public let entity: ___VARIABLE_moduleName___EntityDTO
   /// Additional numeric value from the backend.

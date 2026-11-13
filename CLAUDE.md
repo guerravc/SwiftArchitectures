@@ -57,7 +57,7 @@ MVVM / VIPER        presentation skeletons; they do not import the other templat
 - Keep `___VARIABLE_*___` tokens intact. A Swift file that drops the token will not substitute.
 - Do not edit an unrelated `.xctemplate` while changing another.
 - Inline docs in generated Swift stay in English. Comment tags `ADR-001` … `ADR-005` match **Architecture Decisions** in `README.md`. Do not reopen them unless asked: `Log.warning` maps to `Logger.notice`; log identity requires `AnyObject`; response models stay in App Core; MVVM view models stay `@MainActor`.
-- New Xcode projects set `SWIFT_DEFAULT_ACTOR_ISOLATION` to `MainActor`. App Core infrastructure (`BaseResponse`, `DependencyContainer`, `Log`, `AppInfo`, crypto, decoding helpers) is marked `nonisolated` so `Sendable` conformances and the lock compile and can run off the main actor (ADR-005). Do not remove those keywords. Do not mark `CancellableTask` `nonisolated`; it is for `@MainActor` view models.
+- New Xcode projects set `SWIFT_DEFAULT_ACTOR_ISOLATION` to `MainActor`. App Core infrastructure (`BaseResponse`, `DependencyContainer`, `Log`, `AppInfo`, crypto, decoding helpers) and Clean Module boundary types (`Entity`, `Request`, `Response`, `EntityDTO`, `ResponseDTO`) are marked `nonisolated` so `Sendable` conformances and the lock compile and can run off the main actor (ADR-005). Do not remove those keywords. Do not mark `CancellableTask` `nonisolated`; it is for `@MainActor` view models.
 
 ## Rules that apply here
 
