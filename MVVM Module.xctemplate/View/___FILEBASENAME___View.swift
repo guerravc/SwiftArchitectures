@@ -19,11 +19,17 @@ struct ___VARIABLE_moduleName___View: View {
 
     // MARK: - Initializers
 
-    /// Creates a new instance of the view.
+    /// Creates the view and a new view model on the main actor.
+    @MainActor
+    init() {
+        self.init(viewModel: ___VARIABLE_moduleName___ViewModel())
+    }
+
+    /// Creates the view with the given view model.
     ///
-    /// - Parameter viewModel: Optional custom view model instance,
-    ///   useful for previews or dependency injection in tests.
-    init(viewModel: ___VARIABLE_moduleName___ViewModel = .init()) {
+    /// - Parameter viewModel: View model instance, useful for previews or tests.
+    @MainActor
+    init(viewModel: ___VARIABLE_moduleName___ViewModel) {
         self._viewModel = State(initialValue: viewModel)
     }
 
