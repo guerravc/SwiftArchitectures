@@ -50,7 +50,7 @@ MVVM / VIPER        presentation skeletons; they do not import the other templat
 
 ## Template mechanics that are easy to get wrong
 
-- A template directory **is** the product. Its on-disk layout is the generated layout. `___FILEBASENAME___` in a path becomes the name Xcode assigns from `productName`.
+- A template directory **is** the product. Its on-disk layout is the generated layout. `___FILEBASENAME___` in a path becomes the name Xcode assigns from `productName`. Clean still wraps its tree in `___FILEBASENAME___`. MVVM and VIPER do not: their child folders (`Model`/`View`/`ViewModel`, and the VIPER scene folders) are created in the group the user selects.
 - Feature templates set `productName` to a **static** option whose default is another variable (`___VARIABLE_moduleName___` or `___VARIABLE_sceneName___`). That is how the generated root folder follows the user's input. Do not replace it with a hardcoded string.
 - Clean and MVVM user input is `moduleName`. VIPER user input is `sceneName`; view controller, interactor, presenter, entity, and router names are static options derived from it. Use Case user input is `fileName`, `entityName`, and `gatewayName`. Use Case **filenames** embed `___VARIABLE_fileName___` directly, not `___FILEBASENAME___`.
 - `MainTemplateFile` omits the `.swift` extension. Only Use Case and VIPER set `AllowedTypes` and `MainTemplateFile`. App Core, Networking, Clean, and MVVM omit them and still ship. Do not normalize plists unless the change requires those keys. Do not re-add `DefaultCompletionName` to Clean or MVVM; it was removed so the completion name follows `productName`.
