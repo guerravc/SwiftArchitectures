@@ -7,29 +7,31 @@ import SwiftUI
 /// This view owns the lifecycle of the view model using a `@State` property.
 /// It renders different states (loading, error, empty, content) based on the
 /// view model's `ViewState`.
-struct ___VARIABLE_moduleName___View: View {
+struct ___VARIABLE_moduleName___View<ViewModel: ___VARIABLE_moduleName___ViewModelProtocol>: View {
 
     // MARK: - State
 
     /// View model driving the presentation logic for this module.
     ///
     /// The view owns the view model instance by storing it in `@State`.
-    /// You can inject a custom instance for previews or testing.
-    @State private var viewModel: ___VARIABLE_moduleName___ViewModel
+    /// Inject another type that conforms to the protocol for previews or tests.
+    /// That type should be `@Observable` if the preview needs live updates.
+    @State private var viewModel: ViewModel
 
     // MARK: - Initializers
 
     /// Creates the view and a new view model on the main actor.
     @MainActor
-    init() {
+    init() where ViewModel == ___VARIABLE_moduleName___ViewModel {
         self.init(viewModel: ___VARIABLE_moduleName___ViewModel())
     }
 
     /// Creates the view with the given view model.
     ///
-    /// - Parameter viewModel: View model instance, useful for previews or tests.
+    /// - Parameter viewModel: Any type conforming to the view model protocol,
+    ///   useful for previews or tests.
     @MainActor
-    init(viewModel: ___VARIABLE_moduleName___ViewModel) {
+    init(viewModel: ViewModel) {
         self._viewModel = State(initialValue: viewModel)
     }
 
