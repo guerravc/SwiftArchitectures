@@ -7,10 +7,6 @@ import os
 /// This container allows registration and resolution of dependencies by type
 /// and optional name, without relying on external libraries.
 /// Use this type as the central service graph for the application.
-///
-/// `nonisolated` (ADR-005) opts this type out of `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`.
-/// The lock and `ServiceKey`'s `Hashable` conformance must stay usable off the main actor;
-/// a main-actor-isolated conformance is an error in the Swift 6 language mode.
 public nonisolated final class DependencyContainer: @unchecked Sendable {
   // MARK: - Types
 
