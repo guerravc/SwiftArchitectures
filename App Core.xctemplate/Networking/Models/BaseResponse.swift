@@ -4,10 +4,6 @@
 // so that Use Case and Clean Module templates can depend solely on App Core without
 // pulling in the full Networking stack. This keeps the dependency graph shallow:
 // Clean Module -> App Core (not Clean Module -> Networking -> App Core).
-//
-// ADR-005: `nonisolated` opts these models out of SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor.
-// A main-actor-isolated Decodable conformance cannot satisfy a Sendable type parameter,
-// so `BaseResponse<EmptyResponseBody>` fails to compile in new Xcode projects.
 
 import Foundation
 
