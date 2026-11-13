@@ -69,4 +69,4 @@ MVVM / VIPER        presentation skeletons; they do not import the other templat
 
 `.cursor/rules/planning.mdc`, `review.mdc`, `integration.mdc`, `qa.mdc`, and `debug.mdc` describe another product (RDSUI, RDSNetworking, MobileMax, Swinject, `Docs/STYLEGUIDE.md`, `~/.cursor/issues`). Those packages and that style guide are **not in this repository**. Do not treat them as constraints here.
 
-`AGENTS.md` is the short overview. Prefer the template tree over `README.md` when they disagree: the README contents list omits **MVVM Module**, and its Clean Module paths (`Data/Protocols`, `Data/Models/BaseResponses.swift`) do not match the tree (`Data/DataSource/…`; response models exist only in App Core).
+`AGENTS.md` is the short overview. Prefer the template tree over `README.md` when they disagree: the Clean Module paths in the README (`Data/Protocols`, `Data/Models/BaseResponses.swift`) do not match the tree (`Data/DataSource/…`; response models exist only in App Core).

@@ -9,6 +9,7 @@ It currently includes templates for:
 
 - **App Core**
 - **Clean Module**
+- **MVVM Module**
 - **Networking**
 - **Use Case**
 - **VIPER Module**
@@ -54,6 +55,19 @@ The template gives you a ready-to-use skeleton that cleanly separates **Domain**
 
 ---
 
+### MVVM Module
+
+Generates a **SwiftUI MVVM** feature module:
+
+- `Model/___VARIABLE_moduleName___Model.swift`
+- `View/___VARIABLE_moduleName___View.swift`
+- `ViewModel/___VARIABLE_moduleName___ViewModel.swift`
+
+The view model is `@Observable` and `@MainActor`, with an explicit `ViewState`.
+Async methods are stubs until you wire a use case or service.
+
+---
+
 ### Networking
 
 Provides a reusable **networking core**, including:
@@ -67,7 +81,7 @@ Provides a reusable **networking core**, including:
 - `APIClient` with decoding and optional streaming  
 - SSE support using AsyncStream  
 
-Designed to be used as a **single networking layer** across multiple Clean or VIPER modules.
+Designed to be used as a **single networking layer** across multiple Clean, MVVM, or VIPER modules.
 
 ---
 
@@ -112,6 +126,7 @@ and the architecture modular.
 
    - `App Core.xctemplate`
    - `Clean Module.xctemplate`
+   - `MVVM Module.xctemplate`
    - `Networking.xctemplate`
    - `Use Case.xctemplate`
    - `VIPER Module.xctemplate`
@@ -140,7 +155,7 @@ After restarting, the templates will appear under **“Guerra's Concierge”** i
 
 1. In Xcode, go to **File → New → File…**
 2. Scroll to the **Guerra's Concierge** section.
-3. Choose the template you want (App Core, Clean Module, Networking, Use Case, VIPER Module).
+3. Choose the template you want (App Core, Clean Module, MVVM Module, Networking, Use Case, VIPER Module).
 4. Click **Next** and fill in the required parameters.
 5. Xcode will generate the files automatically.
 
